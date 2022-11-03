@@ -1,31 +1,30 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import CartWidget from './CartWidget';
+import Carrito from './CartWidget';
+import {Link, NavLink} from "react-router-dom";
 
-function NavBar() {
+
+const links = ["Celulares", "Televisores"];
+
+export const NavBar = () => {
   return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand href="#home">ArgenTech</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <NavDropdown title="Productos" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Celulares</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Televisores</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.3">Todos los productos</NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link href="#">Sucursales</Nav.Link>
-            <Nav.Link href="#">Contacto</Nav.Link>
-            <Nav.Link href="#"><CartWidget/></Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <header className="header">
+      <Link style={{color: "black", textDecoration: "none"}} to="/">
+        <h2>ArgenTech</h2>
+      </Link>
+      <div className="header__nav">
+        {links.map((elemento) => {
+          return (
+            <NavLink 
+            style={({isActive}) => ({
+              color: isActive ? "#1684a3" :"black" , textDecoration: "none"})} 
+              to={`/category/${elemento}`} key={elemento}>
+              {elemento}
+            </NavLink>
+          );
+        })}
+      </div>
+      <div className="header__buttons">
+        <Link style={{color: "black", textDecoration: "none"}} to="/cart"><Carrito/></Link>
+      </div>
+    </header>
   );
-}
-
-export default NavBar;
+};
