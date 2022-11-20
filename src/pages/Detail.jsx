@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { getProduct } from "../api/products";
 import { Loader } from "../components/Loader";
 import Counter from "../components/Counter";
+import { useCartContext } from "../context/cartContext";
 
 export const Detail = () => {
   const  { productId }  = useParams();
+  const { addProduct } = useCartContext();
   const [product, setProduct] = useState({data: [], loading: true});
 
   useEffect(() => {
@@ -15,6 +17,9 @@ export const Detail = () => {
     });
   }, [productId]);
 
+  const handleAdd = (qty) => {
+    addProduct(product, qty);
+  };
 
   return (
 
@@ -28,7 +33,7 @@ export const Detail = () => {
           <div className="mb-5">${product.data?.valor}</div>
           <Counter
           stock={product.data?.stock}
-          onAdd={() => console.log("Agregando al carrito")}
+          onAdd={handleAdd}
         />
         </div>
       </div>

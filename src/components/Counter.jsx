@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "./Button";
 
 const Counter = ({ stock, onAdd }) => {
@@ -23,10 +23,10 @@ const Counter = ({ stock, onAdd }) => {
         <Button onClick={() => handleAdd()}>+</Button>
       </div>
       <Button onClick={() => {
-        if(contador) onAdd()     
-      }}> 
-        {" "}
-        Agregar al carrito{" "}
+        if(contador) onAdd(contador)     
+      }}
+      disabled={!contador}> 
+        Agregar al carrito
       </Button>
     </div>
   );

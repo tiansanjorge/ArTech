@@ -1,10 +1,13 @@
+
+import { db } from "./config";
+
 const products = [{
         id: '1',
         nombre: "SAMSUNG GALAXY A12",
         valor: 95000,
         tag: "Celular",
         categoria:"Celulares",
-        // img: "img/12.jpg"
+        // img: "img/12.jpg",
         img: "https://zetaelectronica.com.ar/wp-content/uploads/2021/04/galaxy-a12-dual-sim-fizic-64gb-lte-4g-alb-4gb-ram_10071445_1_1608121717.jpeg",
         stock: 10,
     },
@@ -14,7 +17,7 @@ const products = [{
         valor: 60000,
         tag: "Celular",
         categoria:"Celulares",
-        // img: "img/a13.jpg"
+        // img: "../img/a13.jpg"
         img: "https://zetaelectronica.com.ar/wp-content/uploads/2021/04/galaxy-a12-dual-sim-fizic-64gb-lte-4g-alb-4gb-ram_10071445_1_1608121717.jpeg",
         stock: 10,
     },
@@ -24,7 +27,7 @@ const products = [{
         valor: 300000,
         tag: "Celular",
         categoria:"Celulares",
-        // img: "img/13.jpg"
+        // img: "../img/13.jpg"
         img: "https://zetaelectronica.com.ar/wp-content/uploads/2021/04/galaxy-a12-dual-sim-fizic-64gb-lte-4g-alb-4gb-ram_10071445_1_1608121717.jpeg",
         stock: 10,
     },
@@ -59,6 +62,7 @@ const products = [{
         stock: 10,
     },
 ];
+
 
 //  Filtrar por categoria 
 export const getProducts = (categoria) =>
