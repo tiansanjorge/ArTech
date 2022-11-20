@@ -27,18 +27,20 @@ export const CartProvider = ({ children }) => {
     setCart(newCart);
   };
 
-  const getTotal = () => cart.reduce((acc, product) => acc + product.precio * product.qty ,0)
+  const getTotal = () => cart.reduce((acc, product) => acc + product.valor * product.qty , 0)
 
   const getCartQty = () => cart.reduce((acc,product) => acc + product.qty , 0);
   
+  const emptyCart = () => setCart([])
 
   const value = {
     cart,
     addProduct,
     removeProduct,
     getCartQty,
-    getTotal
+    getTotal,
+    emptyCart
   };
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={value} >{children}</CartContext.Provider>;
 };

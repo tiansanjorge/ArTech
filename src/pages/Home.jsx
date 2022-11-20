@@ -1,6 +1,6 @@
 import ItemContainer from "../components/ItemContainer";
 import { useEffect, useState } from "react";
-import { getProducts } from "../api/products";
+import { getProducts} from "../api/products";
 
 export const Home = () => {
     const [products, setProducts] = useState([]);
@@ -29,3 +29,4 @@ export const Home = () => {
         </main>
     );
 };
+
