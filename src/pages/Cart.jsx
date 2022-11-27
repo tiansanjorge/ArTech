@@ -14,9 +14,7 @@ export const Cart = () => {
   const [email, setEmail] = useState("");
   const [orderState, setOrderState] = useState("generated");
 
-  const { getTotal, cart, emptyCart, setCart } = useCartContext();
-
-
+  const { getTotal, cart, emptyCart } = useCartContext();
 
   // if (cart.length <= 0) return (
   //   <div>
@@ -43,7 +41,7 @@ export const Cart = () => {
 
     const id = await addOrder(order);
 
-    await updateManyProducts(items)
+    await updateManyProducts(items);
 
     alert("El numero de id de su compra es " + id)
 
