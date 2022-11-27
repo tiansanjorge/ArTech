@@ -14,14 +14,16 @@ export const Cart = () => {
   const [email, setEmail] = useState("");
   const [orderState, setOrderState] = useState("generated");
 
-  const { getTotal, cart, emptyCart, removeProduct } = useCartContext();
+  const { getTotal, cart, emptyCart, setCart } = useCartContext();
 
-  if (cart.length <= 0) return (
-    <div>
-      <BsFillCartFill />
-      <div style={{ fontWeight: 600 }}>Su carrito esta vacío</div>
-    </div>
-  );
+
+
+  // if (cart.length <= 0) return (
+  //   <div>
+  //     <BsFillCartFill />
+  //     <div style={{ fontWeight: 600 }}>Su carrito esta vacío</div>
+  //   </div>
+  // );
 
   const createOrder = async () => {
     const items = cart.map(({ id, nombre, qty, valor }) => ({
@@ -45,9 +47,9 @@ export const Cart = () => {
 
     alert("El numero de id de su compra es " + id)
 
-    emptyCart();
+    // emptyCart();
 
-    navigate("/cart")
+    // navigate("/cart")
   };
 
   return (
@@ -67,7 +69,6 @@ export const Cart = () => {
           }}>
           <div style={{ fontWeight: 600 }}>Nombre : {product.nombre}</div>
           <div>Cantidad : {product.qty}</div>
-          {/* <Button onClick={removeProduct(product.id)}>Comprar</Button> */}
         </div>
       ))}
       <span style={{
@@ -77,9 +78,9 @@ export const Cart = () => {
         fontSize: 20,
         fontWeight: 600,
       }}>
-        {getTotal()}
+        ${getTotal()}
       </span>
-      <form style={{ display: "grid", gap: 10 }} id="formul">
+      <form style={{ display: "grid", gap: 10 }}>
         <span>Nombre</span>
         <input
           style={{ border: "1px solid black", height: 40 }}
@@ -91,11 +92,6 @@ export const Cart = () => {
           onChange={(e) => setPhone(e.target.value)}
         />
         <span>Email</span>
-        <input
-          style={{ border: "1px solid black", marginBottom: 15, height: 40 }}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <span>Confirmar Email</span>
         <input
           style={{ border: "1px solid black", marginBottom: 15, height: 40 }}
           onChange={(e) => setEmail(e.target.value)}
