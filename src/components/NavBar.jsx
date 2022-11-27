@@ -7,7 +7,6 @@ const links = ["Celulares", "Televisores"];
 
 export const NavBar = () => {
   const { cart, getCartQty } = useCartContext();
-  console.log({ cart });
   return (
     <header className="header">
       <Link style={{ color: "black", textDecoration: "none" }} to="/">

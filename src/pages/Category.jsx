@@ -1,4 +1,4 @@
-import ItemContainer from "../components/ItemContainer";
+import ItemContainer from "../components/ItemListContainer";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProducts } from "../api/products";

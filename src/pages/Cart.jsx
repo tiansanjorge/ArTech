@@ -12,12 +12,18 @@ export const Cart = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [orderState, setOrderState] = useState("generated");
 
-  const { getTotal, cart, emptyCart } = useCartContext();
+  const { getTotal, cart, emptyCart, removeProduct } = useCartContext();
 
+  if (cart.length <= 0) return (
+    <div>
+      <BsFillCartFill />
+      <div style={{ fontWeight: 600 }}>Su carrito esta vacío</div>
+    </div>
+  );
 
   const createOrder = async () => {
-
     const items = cart.map(({ id, nombre, qty, valor }) => ({
       id,
       title: nombre,
@@ -28,45 +34,52 @@ export const Cart = () => {
     const order = {
       buyer: { name, phone, email },
       items,
+      fecha: Date(),
+      estado: { orderState },
       total: getTotal(),
     };
 
-    const id =  await addOrder(order);
-   
+    const id = await addOrder(order);
+
     await updateManyProducts(items)
-    console.log({id})
+
+    alert("El numero de id de su compra es " + id)
+
     emptyCart();
 
-    navigate("/")
+    navigate("/cart")
   };
 
   return (
+
     <div>
       <BsFillCartFill />
+
       {cart.map((product) => (
         <div key={product.id}
-        style={{
-          display: "flex",
-          gap: 50,
-          height: 100,
-          alignItems: "center",
-          width: "100%",
-          justifyContent: "space-between",
-        }}>
-          <div style={{fontWeight: 600}}>Nombre : {product.nombre}</div>
+          style={{
+            display: "flex",
+            gap: 50,
+            height: 100,
+            alignItems: "center",
+            width: "100%",
+            justifyContent: "space-between",
+          }}>
+          <div style={{ fontWeight: 600 }}>Nombre : {product.nombre}</div>
           <div>Cantidad : {product.qty}</div>
+          {/* <Button onClick={removeProduct(product.id)}>Comprar</Button> */}
         </div>
       ))}
       <span style={{
-          marginBottom: 50,
-          textAlign: "right",
-          width: "100%",
-          fontSize: 20,
-          fontWeight: 600,
-        }}>
+        marginBottom: 50,
+        textAlign: "right",
+        width: "100%",
+        fontSize: 20,
+        fontWeight: 600,
+      }}>
         {getTotal()}
       </span>
-      <div style={{ display: "grid", gap: 10 }}>
+      <form style={{ display: "grid", gap: 10 }} id="formul">
         <span>Nombre</span>
         <input
           style={{ border: "1px solid black", height: 40 }}
@@ -82,8 +95,15 @@ export const Cart = () => {
           style={{ border: "1px solid black", marginBottom: 15, height: 40 }}
           onChange={(e) => setEmail(e.target.value)}
         />
-      </div>
-      <Button onClick={createOrder}>Comprar</Button>
+        <span>Confirmar Email</span>
+        <input
+          style={{ border: "1px solid black", marginBottom: 15, height: 40 }}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Button onClick={createOrder}>Comprar</Button>
+      </form>
+
     </div>
+
   );
 };

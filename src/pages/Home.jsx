@@ -1,10 +1,11 @@
-import ItemContainer from "../components/ItemContainer";
+import ItemContainer from "../components/ItemListContainer";
 import { useEffect, useState } from "react";
 import { getProducts} from "../api/products";
 
 export const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    console.log(Date())
 
     useEffect(() => {
         setProducts([]);

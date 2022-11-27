@@ -42,5 +42,5 @@ export const CartProvider = ({ children }) => {
     emptyCart
   };
 
-  return <CartContext.Provider value={value} >{children}</CartContext.Provider>;
+  return <CartContext.Provider value={value} displayName="cartContext">{children}</CartContext.Provider>;
 };

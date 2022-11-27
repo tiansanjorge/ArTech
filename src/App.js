@@ -7,6 +7,7 @@ import {Category} from "./pages/Category"
 import {Detail} from "./pages/Detail"
 import { CartProvider } from "./context/cartContext";
 import {Cart} from "./pages/Cart"
+import {Error} from "./pages/Error"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
                 <Route path={"/category/:categoryId"} element={<Category />} />
                 <Route path={"/product/:productId"} element={<Detail />} />
                 <Route path="/cart" element={<Cart/>} />
+                <Route path="/error" element={<Error/>} />
               </Route>
             </Routes>
         </BrowserRouter>
