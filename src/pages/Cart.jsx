@@ -102,8 +102,6 @@ export const Cart = () => {
     };
 
     const { buyer, fecha, total } = order
-    
-    // const separatedItems = items.forEach(product => element.qty, element.title, element.price)
 
     const itemsAlert = items.map(({ title, qty, valor }) => ({
       title,
@@ -124,10 +122,7 @@ export const Cart = () => {
         icon: 'success',
         confirmButtonText: 'OK'
       })
-
   };
-
-
 
   return (
 
