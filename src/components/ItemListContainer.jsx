@@ -7,7 +7,7 @@ const ItemContainer = ({ products, loading, onAdd }) => {
 
     return (
         <div className="row m-0 d-flex justify-content-evenly">
-            <div className="col-8 products ">
+            <div className="col-8 products">
                 {loading ? <Loader /> : null}
                 {products.map((producto) => {
                     return (

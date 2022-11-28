@@ -3,5 +3,5 @@ import { useEffect } from "react"
 export const Loader = () => {
     useEffect(() => {
     }, [])
-    return <span>Cargando...</span>
+    return <span className="m-auto">Cargando...</span>
 }

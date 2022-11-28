@@ -51,7 +51,7 @@ export const getProduct = async (productId) => {
         };
     }
 
-    return null;
+    throw new Error("producto no encontrado")
 };
 
 export const updateProduct = async (id, item) => {
@@ -73,19 +73,6 @@ export const updateManyProducts = async (items) => {
         })
     })
 
-    // for (let id in items) {
-    //     const docRef = doc(db, "items", id);
-    //     batch.update(docRef, {
-    //         stock: increment(-items[id])
-    //     })
-    // }
-    // items.forEach(id => {
-    //     const docRef = doc(db, "items", id)
-    //     batch.update(docRef, {
-    //         stock: increment(-400)
-    //     })
-    // })
-
     batch.commit();
 
 };
@@ -95,28 +82,9 @@ export const deleteProduct = async (id) => {
     const element = await deleteDoc(docRef)
 }
 
+// PARA CARGAR PRODUCTOS A FIREBASE
 // export const cargarData = () =>{
 //     products.forEach(async (product) => {
 //         await addDoc(productsRef, product)
 //     })
 // }
-
-//  Filtrar por categoria 
-// export const getProducts = (categoria) =>
-//     new Promise((res, rej) => {
-//         const response = categoria ?
-//             products.filter((p) => p.categoria === categoria) :
-//             products;
-//         setTimeout(() => {
-//             res(response);
-//         }, 2000);
-//     });
-
-//  Filtrar por ID
-// export const getProduct = (productId) =>
-//     new Promise((res, rej) => {
-//         const response = products.find((product) => product.id == productId);
-//         setTimeout(() => {
-//             res(response);
-//         }, 2000);
-//     });

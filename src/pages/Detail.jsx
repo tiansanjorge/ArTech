@@ -16,20 +16,19 @@ export const Detail = () => {
     
     getProduct(productId).then((data) => {
       setProduct(data);
-    });
+    }).catch(e => navigate("/error")) 
   }, [productId]);
+
 
   const handleAdd = (qty) => {
     addProduct(product, qty);
   };
-  // if (!Object.keys(product).length) {
-  //   navigate("/")
-  // }
+
   return (
 
       
       <div className="row mx-0 my-2 text-center align-items-center justify-content-center">
-        <div className="col-3"><img className="img-fluid" src={product?.img} alt={product.data?.nombre} /></div>
+        <div className="col-3"><img className="img-fluid" src={product?.img} alt={product?.nombre} /></div>
         <div className="col-3">
           <div className="mb-5"><b>{product?.nombre}</b></div>
           <p className="mb-5">{product?.descripcion}</p>

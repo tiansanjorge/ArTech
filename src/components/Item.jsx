@@ -16,7 +16,7 @@ const Item = ({ id, valor, img, nombre, categoria, tag }) => {
         <span className="card__category">{categoria}</span>
 
         <Tag titulo={tag} />
-        <button
+        <button className="border-5 rounded-5 bg-dark text-white"
           onClick={(e) => {
             e.stopPropagation();
             addProduct({id, nombre, valor, categoria, tag, img}, 1)

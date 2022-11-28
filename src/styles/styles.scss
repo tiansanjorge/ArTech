@@ -64,10 +64,9 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #1684a3;
     padding: 20px 0;
-    width: 95%;
-    max-width: 1400px;
-    margin: 0 auto;
+    width: 100%;
 
     &__logo {
         width: 50px;
@@ -196,7 +195,7 @@ button {
 .card {
     height: 100%;
     width: 100%;
-    justify-content: space-around;
+    justify-content: flex-end;
     border: 1px solid transparent;
     cursor: pointer;
 
