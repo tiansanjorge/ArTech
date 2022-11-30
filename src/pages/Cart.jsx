@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addOrder } from "../api/orders";
 import { updateManyProducts } from "../api/products";
-import Button from "../components/Button";
 import { useCartContext } from "../context/cartContext";
 import Swal from 'sweetalert2'
 
@@ -88,10 +87,17 @@ export const Cart = () => {
     e.preventDefault();
     const items = cart.map(({ id, nombre, qty, valor }) => ({
       id,
-      title: nombre,
+      nombre,
       qty,
-      price: valor,
+      valor,
     }));
+
+    let itemsAlert = ""
+
+    for (let i = 0; i < items.length; i++) {
+      itemsAlert += "<b>Item:</b> " + items[i].nombre + "<br><b>Cantidad:</b> " + items[i].qty +" <b>Valor Unidad:</b> $" + items[i].valor + "<br><br>" ;
+      console.log(itemsAlert)
+    }
 
     const order = {
       buyer: { name, phone, email },
@@ -100,25 +106,17 @@ export const Cart = () => {
       estado: { orderState },
       total: getTotal(),
     };
-
     const { buyer, fecha, total } = order
 
-    const itemsAlert = items.map(({ title, qty, valor }) => ({
-      title,
-      qty,
-      valor,
-    }));
-    
     const id = await addOrder(order);
 
     await updateManyProducts(items);
-    console.log(items.nombre)
     emptyCart();
 
     Swal.fire(
       {
         title: "Pedido Realizado",
-        html: `El id de su compra es "${id}" <br> Fecha: ${fecha} <br> <br> Comprador: ${buyer.name}<br> Productos: ${JSON.stringify(itemsAlert)}<br> Total: $${total}`,
+        html: `El id de su compra es <b>"${id}"</b> <br> Fecha: ${fecha}<br><br> <b>Detalle de compra:</b><br> <br> <b>Comprador:</b> ${buyer.name} <br><br> ${itemsAlert}<br> <b>Total: $${total}</b>`,
         icon: 'success',
         confirmButtonText: 'OK'
       })
