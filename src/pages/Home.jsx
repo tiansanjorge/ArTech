@@ -5,12 +5,12 @@ import { getProducts} from "../api/products";
 export const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    console.log(Date())
 
     useEffect(() => {
         setProducts([]);
         setLoading(true);
         getProducts()
+        // el parametro que usa el ".then((x) => ..." es lo que devuelve la promise resuelta
             .then((items) => {
                 setProducts(items);
                 setLoading(false);
@@ -18,15 +18,12 @@ export const Home = () => {
             .catch((e) => console.log(e));
     }, []);
 
-    const onAdd = (producto) => {
-        console.log(producto);
-    };
     return (
         <main className="content">
             <ItemContainer
                 products={products}
                 loading={loading}
-                onAdd={onAdd} />
+                />
         </main>
     );
 };

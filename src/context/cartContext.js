@@ -12,12 +12,16 @@ export const CartProvider = ({ children }) => {
     setCart(newCart);
   };
 
-
+  // agregamos un producto
   const addProduct = (item, qty) => {
+
+    // verificamos si el producto ya existe dentro del carrito
     const element = cart.find((product) => product.id === item.id);
 
+    // si no existe dentro del carrito, lo agregamos. Sobrescribiendo el carrito con todo lo que ya tenía + el nuevo producto
     if (!element) return setCart([...cart, { ...item, qty }]);
-
+    
+    // si el producto a agregar ya existia dentro del carrito, solo agregamos la nueva cantidad a la cantidad anterior (qty)
     const newCart = cart.map((product) => {
       if (product.id === item.id) {
         return { ...product, qty: product.qty + qty };
@@ -29,7 +33,7 @@ export const CartProvider = ({ children }) => {
 
   const getTotal = () => cart.reduce((acc, product) => acc + product.valor * product.qty , 0)
 
-  const getCartQty = () => cart.reduce((acc,product) => acc + product.qty , 0);
+  const getCartQty = () => cart.reduce((acc, product) => acc + product.qty , 0);
   
   const emptyCart = () => setCart([])
 
@@ -41,6 +45,6 @@ export const CartProvider = ({ children }) => {
     getTotal,
     emptyCart
   };
-
+  // TODO ACA TENGO DUDA CON EL VALUE Y CON EL CHILDREN
   return <CartContext.Provider value={value} displayName="cartContext">{children}</CartContext.Provider>;
 };

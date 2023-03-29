@@ -32,7 +32,4 @@ const Counter = ({ stock, onAdd }) => {
   );
 };
 
-// el llamado a counter sería:
-//  <Counter onAdd={() =>funcion")} stock={20}/>
-
 export default Counter;

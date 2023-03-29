@@ -7,18 +7,16 @@ import { useCartContext } from "../context/cartContext";
 
 export const Detail = () => {
   const navigate = useNavigate()
-
+  // el param "productId" es sacado de la ruta (app.js) y fue brindado por el componente "Item.jsx"
   const  { productId }  = useParams();
   const { addProduct } = useCartContext();
   const [product, setProduct] = useState({});
 
   useEffect(() => {
-    
     getProduct(productId).then((data) => {
       setProduct(data);
     }).catch(e => navigate("/error")) 
   }, [productId]);
-
 
   const handleAdd = (qty) => {
     addProduct(product, qty);

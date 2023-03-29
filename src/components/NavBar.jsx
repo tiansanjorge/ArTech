@@ -1,12 +1,14 @@
 import { BsFillCartFill } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
+import { useWishlistContext } from "../context/wishlistContext";
 
 
 const links = ["Celulares", "Televisores"];
 
 export const NavBar = () => {
-  const { cart, getCartQty } = useCartContext();
+  const { getCartQty } = useCartContext();
+  const { getWishlistQty } = useWishlistContext();
   return (
     <header className="header px-5">
       <Link style={{ color: "#fff", textDecoration: "none" }} to="/">
@@ -26,11 +28,17 @@ export const NavBar = () => {
           );
         })}
       </div>
-      <div className="header__buttons">
-        <Link style={{ color: "#fff", textDecoration: "none" }} to="/cart">
+      <div className="header__buttons" style={{ display: "flex", justifyContent:"space-around", width: "20%"}}>
+        <Link style={{ color: "#fff", textDecoration: "none"}} to="/wishlist">
           
-          <BsFillCartFill /> Carrito <BsFillCartFill />
-          <span className="m-auto">{getCartQty()}</span>
+          Wishlist
+          <span className="m-auto" style={{ display: "flex", justifyContent:"space-around"}}>{getWishlistQty()}</span>
+          
+        </Link>
+        <Link style={{ color: "#fff", textDecoration: "none"}} to="/cart">
+          
+          Carrito <BsFillCartFill/>
+          <span className="m-auto" style={{ display: "flex", justifyContent:"space-around"}}>{getCartQty()}</span>
           
         </Link>
       </div>
