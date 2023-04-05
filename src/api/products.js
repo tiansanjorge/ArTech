@@ -44,7 +44,7 @@ export const getProducts = async (categoria) => {
 };
 
 export const getProduct = async (productId) => {
-    // Guardo en una const el documento: que esta dentro de la database de firebase, a su vez dentro de la colección "items", y buscando el doc con el id que le pasamos por param.
+    // Guardo en una const el documento: que esta dentro de la database de firebase y a su vez dentro de la colección "items", y buscando el doc con el id que le pasamos por param.
     const document = doc(db, "items", productId);
 
     // Uso la función getDoc para llamarlo 
@@ -69,8 +69,6 @@ export const updateProduct = async (id, item) => {
 // Actualizamos el sotck de los productos en firebase
 export const updateManyProducts = async (items) => {
     const batch = writeBatch(db);
-
-    // TODO TENGO DUDA por que no hay un await
     items.forEach(({
         id,
         qty
@@ -81,7 +79,7 @@ export const updateManyProducts = async (items) => {
         })
     })
 
-    batch.commit();
+    await batch.commit();
 
 };
 

@@ -1,14 +1,14 @@
 import { BsFillCartFill } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { addOrder } from "../api/orders";
 import { updateManyProducts } from "../api/products";
 import { useCartContext } from "../context/cartContext";
+import Counter from "../components/Counter";
 import Swal from 'sweetalert2'
 
 export const Cart = () => {
 
-  // Los RegEx (o expresiones regulares) permiten en este caso nos permiten validar que un telefono o email sea valido 
-  // (que tenga "@" y luego tenga algo escrito antes de un ".com", etc.)
+  // Los RegEx (o expresiones regulares) permiten en este caso nos permiten validar que un telefono o email sea valido (que tenga "@" y luego tenga algo escrito antes de un ".com", etc.)
   const emailRegEx =
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   // (que solo permita numeros, mas de 7 numeros y menos de 15, etc. )
@@ -74,13 +74,12 @@ export const Cart = () => {
   const checkEmail = (from, emailToCheck  ) => {
     setCheckMailError("");
     if (email === emailToCheck && from === "checkInput" ) setCheckMail(emailToCheck);
-    debugger
     if (emailToCheck !== checkMail && checkMail) setCheckMailError("Los correos no coinciden")
 
     console.log("email", email, "emailtocheck", emailToCheck)
   }
 
-  const { getTotal, cart, emptyCart } = useCartContext();
+  const { getTotal, cart, emptyCart, removeProduct } = useCartContext();
 
   if (cart.length <= 0) return (
     <div className="d-flex justify-content-evenly">
@@ -91,9 +90,8 @@ export const Cart = () => {
   // Creamos una orden en firebase
 
   const createOrder = async (e) => {
-    // TODO TENGO DUDA no se que hace el e.preventDefault()
+    // Como esta función esta siendo llamada desde el botom tipo "submit" del form, el "e.preventDefault" esta previniendo el comportamiento por default que tiene el submit, el cual es un "get" request a la URL por defecto. Pasando en limpio, estamos previniendo ese comportamiento indeseado y definiendo, con las funciones a continuación, que sucede cuando se clickea en submit .
     e.preventDefault();
-
 
     // Armamos un nuevo array con 4 propiedades de cada objeto del array "cart" para facilitar el llamado
     const items = cart.map(({ id, nombre, qty, valor }) => ({
@@ -141,6 +139,8 @@ export const Cart = () => {
       })
   };
 
+  console.log(cart)
+
   return (
 
     <div className="w-75 m-auto my-5">
@@ -159,6 +159,12 @@ export const Cart = () => {
           <div>Producto : <b><b>{product.nombre}</b></b></div>
           <div>Valor unitario : <b><b>${product.valor}</b></b></div>
           <div>Cantidad : <b><b>{product.qty}</b></b></div>
+          <button className="border-5 rounded-5 bg-dark text-white"
+          onClick={(e) => {
+            e.stopPropagation();
+            removeProduct(product.id)
+          }}
+          >Eliminar</button>
         </div>
       ))}
       <span style={{

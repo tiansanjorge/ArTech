@@ -45,6 +45,6 @@ export const CartProvider = ({ children }) => {
     getTotal,
     emptyCart
   };
-  // TODO ACA TENGO DUDA CON EL VALUE Y CON EL CHILDREN
+
   return <CartContext.Provider value={value} displayName="cartContext">{children}</CartContext.Provider>;
 };

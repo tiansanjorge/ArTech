@@ -37,7 +37,7 @@ export const Detail = () => {
           <Counter
           stock={product?.stock}
           onAdd={handleAdd}
-        />
+          />
         </div>
       </div>
 
