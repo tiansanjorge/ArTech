@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const WishlistContext = createContext([]);
 
@@ -6,6 +6,17 @@ export const useWishlistContext = () => useContext(WishlistContext);
 
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
+
+  useEffect(() => {
+    const data = localStorage.getItem("wishlist");
+    if (data) {
+      setWishlist(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  });
 
   const removeOfWishlist = (id) => {
     const newWishlist = wishlist.filter((product) => product.id !== id);

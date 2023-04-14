@@ -139,8 +139,6 @@ export const Cart = () => {
       })
   };
 
-  console.log(cart)
-
   return (
 
     <div className="w-75 m-auto my-5">
