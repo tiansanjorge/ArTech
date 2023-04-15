@@ -1,8 +1,10 @@
+import React, {useState} from "react";
 import { BsFillCartFill } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
 import { useWishlistContext } from "../context/wishlistContext";
 import { UserAuth } from '../context/authContext';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
 
 
 
@@ -22,25 +24,50 @@ export const NavBar = () => {
     }
   }
 
+  const [dropdown, SetDropdown] =useState(false);
+
+  const toggleDropdown = () => {
+    SetDropdown(!dropdown)
+  }
+
   return (
     <header className="header px-5">
       <Link style={{ color: "#fff", textDecoration: "none" }} to="/">
         <h2>ArgenTech</h2>
       </Link>
-      <div className="header__nav">
-        {links.map((elemento) => {
-          return (
+      {/* <div className="header__nav"> */}
+      <Dropdown isOpen={dropdown} toggle={toggleDropdown}>
+        <DropdownToggle>
+          Categorías
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem>
             <NavLink
               style={({ isActive }) => ({
                 color: isActive ? "#000" : "#fff", textDecoration: "none"
               })
               }
-              to={`/category/${elemento}`} key={elemento}>
-              {elemento}
+              to={`/`} >
+              Todos los productos
             </NavLink>
-          );
-        })}
-      </div>
+          </DropdownItem>
+          {links.map((elemento) => {
+            return (
+              <DropdownItem>
+                <NavLink
+                  style={({ isActive }) => ({
+                    color: isActive ? "#FFF" : "#000", textDecoration: "none"
+                  })
+                  }
+                  to={`/category/${elemento}`} key={elemento}>
+                  {elemento}
+                </NavLink>
+              </DropdownItem>
+            );
+          })}
+        </DropdownMenu>
+      </Dropdown>
+      {/* </div> */}
       <div className='flex justify-between bg-gray-200 w-full p-4'>
         {user?.displayName ? <button onClick={handleSignOut}>Logout</button> : <Link to='/signin'>Sign in</Link>}
         
