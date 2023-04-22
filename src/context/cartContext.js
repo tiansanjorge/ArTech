@@ -18,29 +18,31 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(cart));
   });
 
-  const removeProduct = (id) => {
-    const newCart = cart.filter((product) => product.id !== id);
+  const removeProduct = (id, color) => {
+    const newCart = cart.filter((product) => product.id !== id || product.color !== color );
     setCart(newCart);
   };
 
   // agregamos un producto
-  const addProduct = (item, qty) => {
+  const addProduct = (item, qty, color) => {
 
     // verificamos si el producto ya existe dentro del carrito
-    const element = cart.find((product) => product.id === item.id);
+    const element = cart.find((product) => product.id === item.id && product.color === color );
 
     // si no existe dentro del carrito, lo agregamos. Sobrescribiendo el carrito con todo lo que ya tenía + el nuevo producto
-    if (!element) return setCart([...cart, { ...item, qty }]);
+    if (!element) return setCart([...cart, { ...item, qty, color }]);
     
     // si el producto a agregar ya existia dentro del carrito, solo agregamos la nueva cantidad a la cantidad anterior (qty)
     const newCart = cart.map((product) => {
-      if (product.id === item.id) {
+      if (product.id === item.id && product.color === color ){
         return { ...product, qty: product.qty + qty };
-      }
-      return product;
+      } 
+      return product
     });
     setCart(newCart);
+    
   };
+
 
   const getTotal = () => cart.reduce((acc, product) => acc + product.valor * product.qty , 0)
 

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { BsFillCartFill } from "react-icons/bs";
+import { BsMagic } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
 import { useWishlistContext } from "../context/wishlistContext";
@@ -35,7 +36,6 @@ export const NavBar = () => {
       <Link style={{ color: "#fff", textDecoration: "none" }} to="/">
         <h2>ArgenTech</h2>
       </Link>
-      {/* <div className="header__nav"> */}
       <Dropdown isOpen={dropdown} toggle={toggleDropdown}>
         <DropdownToggle>
           Categorías
@@ -53,13 +53,13 @@ export const NavBar = () => {
           </DropdownItem>
           {links.map((elemento) => {
             return (
-              <DropdownItem>
+              <DropdownItem key={elemento}>
                 <NavLink
                   style={({ isActive }) => ({
                     color: isActive ? "#FFF" : "#000", textDecoration: "none"
                   })
                   }
-                  to={`/category/${elemento}`} key={elemento}>
+                  to={`/category/${elemento}`} >
                   {elemento}
                 </NavLink>
               </DropdownItem>
@@ -67,7 +67,6 @@ export const NavBar = () => {
           })}
         </DropdownMenu>
       </Dropdown>
-      {/* </div> */}
       <div className='flex justify-between bg-gray-200 w-full p-4'>
         {user?.displayName ? <button onClick={handleSignOut}>Logout</button> : <Link to='/signin'>Sign in</Link>}
         
@@ -75,7 +74,7 @@ export const NavBar = () => {
       <div className="header__buttons" style={{ display: "flex", justifyContent:"space-around", width: "20%"}}>
         <Link style={{ color: "#fff", textDecoration: "none"}} to="/wishlist">
           
-          Wishlist
+          Wishlist <BsMagic/>
           <span className="m-auto" style={{ display: "flex", justifyContent:"space-around"}}>{getWishlistQty()}</span>
           
         </Link>

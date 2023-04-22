@@ -3,7 +3,6 @@ import { useState } from "react";
 import { addOrder } from "../api/orders";
 import { updateManyProducts } from "../api/products";
 import { useCartContext } from "../context/cartContext";
-import Counter from "../components/Counter";
 import Swal from 'sweetalert2'
 
 export const Cart = () => {
@@ -18,6 +17,7 @@ export const Cart = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [checkMail, setCheckMail] = useState("");
+  // const [discount, setDiscount] = useState(false);
 
   const [orderState] = useState("generated");
 
@@ -81,31 +81,65 @@ export const Cart = () => {
 
   const { getTotal, cart, emptyCart, removeProduct } = useCartContext();
 
+  
   if (cart.length <= 0) return (
     <div className="d-flex justify-content-evenly">
       <div className="text-center m-auto" style={{ fontWeight: 600 }}><BsFillCartFill /><br /> Su carrito esta vacío</div>
     </div>
   );
 
+  
+
+  // const discountCart = cart.map((product) => {
+  //     if (product.qty >= 3){
+  //       const total = product.valor * product.qty;
+  //       console.log(total)
+  //       const discounted = product.valor * 0.75;
+  //       console.log(discounted)
+  //       const totalFinalValue = total - product.valor + discounted;
+  //       console.log(totalFinalValue)
+  //       const unityFinalValue = totalFinalValue / product.qty;
+  //       console.log(unityFinalValue)
+  //       product.valor = Math.floor(unityFinalValue)
+  //       console.log(product.valor)
+  //       setDiscount(true)
+  //       return product;
+  //     }
+  //     console.log(product)
+  //     return product
+  //     });
+
+  //   let discountSpan = ""
+  //   if (discount){
+  //     discountSpan =<span>Descuento aplicado</span>}
+  //   else{
+  //     discountSpan =<span>No hay descuentos aplicados</span>}
+
+
+
+  
+
   // Creamos una orden en firebase
 
   const createOrder = async (e) => {
-    // Como esta función esta siendo llamada desde el botom tipo "submit" del form, el "e.preventDefault" esta previniendo el comportamiento por default que tiene el submit, el cual es un "get" request a la URL por defecto. Pasando en limpio, estamos previniendo ese comportamiento indeseado y definiendo, con las funciones a continuación, que sucede cuando se clickea en submit .
+    // Como esta función esta siendo llamada desde el boton tipo "submit" del form, el "e.preventDefault" esta previniendo el comportamiento por default que tiene el submit, el cual es un "get" request a la URL por defecto. Pasando en limpio, estamos previniendo ese comportamiento indeseado y definiendo, con las funciones a continuación, que sucede cuando se clickea en submit .
     e.preventDefault();
 
     // Armamos un nuevo array con 4 propiedades de cada objeto del array "cart" para facilitar el llamado
-    const items = cart.map(({ id, nombre, qty, valor }) => ({
+    const items = cart.map(({ id, nombre, qty, valor, color }) => ({
       id,
       nombre,
       qty,
       valor,
+      color
     }));
 
     let itemsAlert = ""
 
     // Recorremos el array items e incluimos en un string el mensaje que nos aparecerá en nuestra alerta cuando realicemos la orden
     for (let i = 0; i < items.length; i++) {
-      itemsAlert += "<b>Item:</b> " + items[i].nombre + "<br><b>Cantidad:</b> " + items[i].qty +" <b>Valor Unidad:</b> $" + items[i].valor + "<br><br>" ;
+      itemsAlert += "<b>Item:</b> " + items[i].nombre + "<br><b>Cantidad:</b> " + items[i].qty +
+      "<br><b>Color:</b> " + items[i].color +" <b>Valor Unidad:</b> $" + items[i].valor + "<br><br>" ;
       console.log(itemsAlert)
     }
 
@@ -157,10 +191,11 @@ export const Cart = () => {
           <div>Producto : <b><b>{product.nombre}</b></b></div>
           <div>Valor unitario : <b><b>${product.valor}</b></b></div>
           <div>Cantidad : <b><b>{product.qty}</b></b></div>
+          <div>Color : <b><b>{product.color}</b></b></div>
           <button className="border-5 rounded-5 bg-dark text-white"
           onClick={(e) => {
             e.stopPropagation();
-            removeProduct(product.id)
+            removeProduct(product.id, product.color)
           }}
           >Eliminar</button>
         </div>
@@ -171,6 +206,7 @@ export const Cart = () => {
         width: "70%",
         fontSize: 20,
       }} className="mx-auto">
+        {/* {discountSpan} */}
         Total : <b><b>${getTotal()}</b></b>
       </span>
       <form style={{ display: "grid", gap: 10 }} className="mb-5" >

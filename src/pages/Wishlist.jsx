@@ -1,8 +1,8 @@
 import { BsFillCartFill } from "react-icons/bs";
+import { BsMagic } from "react-icons/bs";
 import { useWishlistContext } from "../context/wishlistContext";
 import { useCartContext } from "../context/cartContext";
-import Counter from "../components/Counter";
-import { getProduct } from "../api/products";
+
 
 export const Wishlist = () => {
 
@@ -10,7 +10,12 @@ export const Wishlist = () => {
   const { addProduct} = useCartContext();
   console.log(wishlist)
 
-
+  if (wishlist.length <= 0) return (
+    <div className="text-center">
+      <h2 className="text-center my-5"> Wishlist <BsMagic/></h2>
+      <div className="text-center m-auto" style={{ fontWeight: 600 }}>Vacía</div>
+    </div>
+  );
 
   return (
 
@@ -29,6 +34,7 @@ export const Wishlist = () => {
           <div>Producto : <b><b>{product.nombre}</b></b></div>
           <div>Valor unitario : <b><b>${product.valor}</b></b></div>
           <div>Cantidad : <b><b>{product.qty}</b></b></div>
+          <div>Color : <b><b>{product.color}</b></b></div>
           {/* <Counter
           stock={product.stock}
           onAdd={(qty) => {
@@ -38,15 +44,16 @@ export const Wishlist = () => {
           <button className="border-5 rounded-5 bg-dark text-white"
           onClick={(e) => {
             e.stopPropagation();
-            addProduct(product, product.qty)
+            addProduct(product, product.qty, product.color)
+            removeOfWishlist(product.id, product.color)
           }}
           ><BsFillCartFill /></button>
           <button className="border-5 rounded-5 bg-dark text-white"
           onClick={(e) => {
             e.stopPropagation();
-            removeOfWishlist(product.id)
+            removeOfWishlist(product.id, product.color)
           }}
-          >Eliminar de Wishlist</button>
+          >Eliminar</button>
         </div>
       ))}
       

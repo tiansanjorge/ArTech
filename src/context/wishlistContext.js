@@ -18,19 +18,19 @@ export const WishlistProvider = ({ children }) => {
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
   });
 
-  const removeOfWishlist = (id) => {
-    const newWishlist = wishlist.filter((product) => product.id !== id);
+  const removeOfWishlist = (id, color) => {
+    const newWishlist = wishlist.filter((product) => product.id !== id || product.color !== color );
     setWishlist(newWishlist);
   };
 
 
-  const addToWishlist = (item, qty) => {
-    const element = wishlist.find((product) => product.id === item.id);
+  const addToWishlist = (item, qty, color) => {
+    const element = wishlist.find((product) => product.id === item.id && product.color === color );
 
-    if (!element) return setWishlist([...wishlist, { ...item, qty }]);
+    if (!element) return setWishlist([...wishlist, { ...item, qty, color }]);
 
     const newWishlist = wishlist.map((product) => {
-      if (product.id === item.id) {
+      if (product.id === item.id && product.color === color ) {
         return { ...product, qty: product.qty + qty };
       }
       return product;
