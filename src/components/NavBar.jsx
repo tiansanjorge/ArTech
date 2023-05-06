@@ -4,7 +4,7 @@ import { BsMagic } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
 import { useWishlistContext } from "../context/wishlistContext";
-import { UserAuth } from '../context/authContext';
+import { useAuthContext } from '../context/authContext';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
 
 
@@ -15,7 +15,7 @@ export const NavBar = () => {
   const { getCartQty } = useCartContext();
   const { getWishlistQty } = useWishlistContext();
 
-  const { user, logOut } = UserAuth();
+  const { user, logOut } = useAuthContext();
 
   const handleSignOut = async () => {
     try {
@@ -68,8 +68,12 @@ export const NavBar = () => {
         </DropdownMenu>
       </Dropdown>
       <div className='flex justify-between bg-gray-200 w-full p-4'>
+        <Link style={{ color: "#fff", textDecoration: "none"}} to="/orders">
+          <span>Ordenes</span>
+        </Link>
+      </div>
+      <div className='flex justify-between bg-gray-200 w-full p-4'>
         {user?.displayName ? <button onClick={handleSignOut}>Logout</button> : <Link to='/signin'>Sign in</Link>}
-        
       </div>
       <div className="header__buttons" style={{ display: "flex", justifyContent:"space-around", width: "20%"}}>
         <Link style={{ color: "#fff", textDecoration: "none"}} to="/wishlist">

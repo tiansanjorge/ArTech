@@ -10,9 +10,13 @@ import { auth } from '../api/config';
 
 const AuthContext = createContext();
 
-export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState({});
+export const useAuthContext = () => {
+    return useContext(AuthContext);
+};
 
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState({});
+    
     const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     // signInWithPopup(auth, provider);
@@ -26,7 +30,7 @@ export const AuthContextProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
-            console.log('User', currentUser)
+            console.log(currentUser.email)
         }); 
         return () => {
             unsubscribe();
@@ -37,8 +41,8 @@ export const AuthContextProvider = ({ children }) => {
         googleSignIn,
         logOut,
         user 
-      };
-
+    };
+    
     return (
     <AuthContext.Provider value={value}>
     {children}
@@ -46,6 +50,3 @@ export const AuthContextProvider = ({ children }) => {
     );
 };
 
-export const UserAuth = () => {
-    return useContext(AuthContext);
-};

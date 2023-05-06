@@ -1,5 +1,5 @@
 import { BsFillCartFill } from "react-icons/bs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addOrder } from "../api/orders";
 import { updateManyProducts } from "../api/products";
 import { useCartContext } from "../context/cartContext";
@@ -17,15 +17,14 @@ export const Cart = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [checkMail, setCheckMail] = useState("");
-  // const [discount, setDiscount] = useState(false);
 
   const [orderState] = useState("generated");
+  // const [orderInfo, setOrderInfo] = useState([]);
 
   const [phoneError, setPhoneError] = useState("")
   const [mailError, setMailError] = useState("")
   const [checkMailError, setCheckMailError] = useState("");
   
-
   let dateObj = new Date();
   let month = dateObj.getUTCMonth() + 1; //months from 1-12
   let day = dateObj.getUTCDate();
@@ -71,15 +70,15 @@ export const Cart = () => {
   }
 
   // Chequear si los mails de ambos inputs de mails coinciden
-  const checkEmail = (from, emailToCheck  ) => {
+  const checkEmail = (from, emailToCheck) => {
     setCheckMailError("");
     if (email === emailToCheck && from === "checkInput" ) setCheckMail(emailToCheck);
     if (emailToCheck !== checkMail && checkMail) setCheckMailError("Los correos no coinciden")
 
-    console.log("email", email, "emailtocheck", emailToCheck)
+    // console.log("email", email, "emailtocheck", emailToCheck)
   }
 
-  const { getTotal, cart, emptyCart, removeProduct } = useCartContext();
+  const { getTotal, cart, discount, emptyCart, removeProduct } = useCartContext();
 
   
   if (cart.length <= 0) return (
@@ -88,38 +87,13 @@ export const Cart = () => {
     </div>
   );
 
-  
+  let discountSpan = ""
+  if (discount){
+    discountSpan =<span>Descuento del 25% en la 3era misma unidad aplicado</span>}
+  else{
+    discountSpan =<span>No hay descuentos aplicados</span>}
 
-  // const discountCart = cart.map((product) => {
-  //     if (product.qty >= 3){
-  //       const total = product.valor * product.qty;
-  //       console.log(total)
-  //       const discounted = product.valor * 0.75;
-  //       console.log(discounted)
-  //       const totalFinalValue = total - product.valor + discounted;
-  //       console.log(totalFinalValue)
-  //       const unityFinalValue = totalFinalValue / product.qty;
-  //       console.log(unityFinalValue)
-  //       product.valor = Math.floor(unityFinalValue)
-  //       console.log(product.valor)
-  //       setDiscount(true)
-  //       return product;
-  //     }
-  //     console.log(product)
-  //     return product
-  //     });
-
-  //   let discountSpan = ""
-  //   if (discount){
-  //     discountSpan =<span>Descuento aplicado</span>}
-  //   else{
-  //     discountSpan =<span>No hay descuentos aplicados</span>}
-
-
-
-  
-
-  // Creamos una orden en firebase
+  // Creamos la orden en firebase
 
   const createOrder = async (e) => {
     // Como esta función esta siendo llamada desde el boton tipo "submit" del form, el "e.preventDefault" esta previniendo el comportamiento por default que tiene el submit, el cual es un "get" request a la URL por defecto. Pasando en limpio, estamos previniendo ese comportamiento indeseado y definiendo, con las funciones a continuación, que sucede cuando se clickea en submit .
@@ -140,7 +114,6 @@ export const Cart = () => {
     for (let i = 0; i < items.length; i++) {
       itemsAlert += "<b>Item:</b> " + items[i].nombre + "<br><b>Cantidad:</b> " + items[i].qty +
       "<br><b>Color:</b> " + items[i].color +" <b>Valor Unidad:</b> $" + items[i].valor + "<br><br>" ;
-      console.log(itemsAlert)
     }
 
     // creamos la orden como un objeto
@@ -162,7 +135,6 @@ export const Cart = () => {
     await updateManyProducts(items);
     emptyCart();
 
-
     // Alerta de orden realizada
     Swal.fire(
       {
@@ -171,11 +143,12 @@ export const Cart = () => {
         icon: 'success',
         confirmButtonText: 'OK'
       })
+
   };
 
   return (
 
-    <div className="w-75 m-auto my-5">
+    <div className=" m-5">
       <h2 className="text-center my-5"><BsFillCartFill /> Carrito <BsFillCartFill /> </h2>
 
       {cart.map((product) => (
@@ -185,9 +158,9 @@ export const Cart = () => {
             gap: 50,
             height: 100,
             alignItems: "center",
-            width: "70%",
             justifyContent: "space-evenly",
           }} className="m-auto">
+          <div className="h-50"><img className="img-fluid h-100" src={product.img} alt="" /></div>
           <div>Producto : <b><b>{product.nombre}</b></b></div>
           <div>Valor unitario : <b><b>${product.valor}</b></b></div>
           <div>Cantidad : <b><b>{product.qty}</b></b></div>
@@ -200,15 +173,17 @@ export const Cart = () => {
           >Eliminar</button>
         </div>
       ))}
+      <div className="mx-auto my-4">
       <span style={{
         marginBottom: 50,
         textAlign: "center",
         width: "70%",
         fontSize: 20,
-      }} className="mx-auto">
-        {/* {discountSpan} */}
+      }}>
+        {discountSpan} <br />
         Total : <b><b>${getTotal()}</b></b>
       </span>
+      </div>
       <form style={{ display: "grid", gap: 10 }} className="mb-5" >
         <span>Nombre</span>
         <input

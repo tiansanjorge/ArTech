@@ -1,7 +1,7 @@
 export const Error = () => {
     return (
-        <div className="text-center">
-            El producto qué estas buscando no existe.
+        <div className="text-center mt-5">
+            La página qué estas buscando no existe.
         </div>
     );
 };

@@ -89,7 +89,57 @@ export const deleteProduct = async (id) => {
     return
 }
 
-// PARA CARGAR PRODUCTOS A FIREBASE
+// const products = [{
+//         nombre: "IPHONE X",
+//         valor: 395000,
+//         tag: "Celular",
+//         categoria: "Celulares",
+//         img: "https://cdn.shopify.com/s/files/1/0599/5413/5239/products/iphone-xs-max-517547_2048x2048.jpg?v=1674907123",
+//         stock: 50,
+//     },
+//     {
+//         nombre: "LG K22",
+//         valor: 45000,
+//         tag: "Celular",
+//         categoria: "Celulares",
+//         img: "https://speedpc.es/fotos/18087.jpg",
+//         stock: 50,
+//     },
+//     {
+//         nombre: "XIAOMI REDNOTE 11",
+//         valor: 105000,
+//         tag: "Celular",
+//         categoria: "Celulares",
+//         img: "https://www.maximus.com.ar/Temp/App_WebSite/App_PictureFiles/Items/6934177767166_800.jpg",
+//         stock: 50,
+//     },
+//     {
+//         nombre: "TCL 40' SMART TV HD",
+//         valor: 75000,
+//         tag: "TV",
+//         categoria: "Televisores",
+//         img: "https://images.fravega.com/f1000/71c66532a2129397660653affe213d13.jpg",
+//         stock: 50,
+//     },
+//     {
+//         nombre: "SAMSUNG 40' FULL HD",
+//         valor: 500000,
+//         tag: "TV",
+//         categoria: "Televisores",
+//         img: "https://images.samsung.com/is/image/samsung/p6pim/co/un40t5290akxzl/gallery/co-fhd-t5300-383096-un40t5290akxzl-417825758?$1300_1038_PNG$",
+//         stock: 50,
+//     },
+//     {
+//         nombre: "SONY 32' HD",
+//         valor: 50000,
+//         tag: "TV",
+//         categoria: "Televisores",
+//         img: "https://cdn.grupoelcorteingles.es/SGFM/dctm/MEDIA03/202202/10/00114841914709____8__1200x1200.jpg",
+//         stock: 50,
+//     },
+// ];
+
+// PARA CARGAR PRODUCTOS A FIREBASE CON EL ARRAY PREVIO "products"
 // export const cargarData = () =>{
 //     products.forEach(async (product) => {
 //         await addDoc(productsRef, product)

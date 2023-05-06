@@ -1,8 +1,8 @@
 import React from 'react';
-import { UserAuth } from '../context/authContext';
+import { useAuthContext } from '../context/authContext';
 
 const Account = () => {
-  const { logOut, user } = UserAuth();
+  const { logOut, user } = useAuthContext();
 
   const handleSignOut = async () => {
     try {

@@ -6,7 +6,9 @@ export const useCartContext = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [discount, setDiscount] = useState(false);
 
+  // Guardo en el LocalStorage el array "cart" y el estado de "discount"
   useEffect(() => {
     const data = localStorage.getItem("cart");
     if (data) {
@@ -18,6 +20,29 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(cart));
   });
 
+  useEffect(() => {
+    const data = localStorage.getItem("discount");
+    if (data) {
+      setDiscount(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("discount", JSON.stringify(discount));
+  });
+
+  // uso un useEffect para alternar el estado "discount" cada vez que el cart sufre una modificacion
+  useEffect(() => {
+    const newCart = cart.filter((product) => product.qty >= 3);
+    if (newCart.length > 0) {
+      setDiscount(true);
+    }
+    else {
+      setDiscount(false)
+    }
+  }, [cart]);
+
+  // removemos un producto
   const removeProduct = (id, color) => {
     const newCart = cart.filter((product) => product.id !== id || product.color !== color );
     setCart(newCart);
@@ -39,12 +64,23 @@ export const CartProvider = ({ children }) => {
       } 
       return product
     });
+
     setCart(newCart);
     
   };
 
+  const discountApplier = () => {
+    const newCart = cart.filter((product) => product.qty >= 3 );
+    if(newCart.length>0){
+      let discount = 0 
+      newCart.forEach((product) => {
+      discount = discount + product.valor * 0.25;})
+    return discount
+    }
+    return 0
+  }
 
-  const getTotal = () => cart.reduce((acc, product) => acc + product.valor * product.qty , 0)
+  const getTotal = () => cart.reduce((acc, product) => acc + product.valor * product.qty , 0) - discountApplier()
 
   const getCartQty = () => cart.reduce((acc, product) => acc + product.qty , 0);
   
@@ -52,6 +88,7 @@ export const CartProvider = ({ children }) => {
 
   const value = {
     cart,
+    discount,
     addProduct,
     removeProduct,
     getCartQty,
