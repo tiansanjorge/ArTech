@@ -1,4 +1,4 @@
-// pagina de las ordenes
+
 import { useEffect, useState } from "react";
 import { useAuthContext } from '../context/authContext';
 import { getOrders } from "../api/orders";
@@ -10,16 +10,8 @@ export const Orders = () => {
     const { user } = useAuthContext();
     const [orders, setOrders] = useState([]);
 
-
-
-    // useEffect(() => {
-    //     getOrders(user.email).then((data) => {
-    //         setOrders(data);
-    //     }).catch((e) => navigate("/error")) 
-    // }, []);
-
     useEffect(() => {
-        if (user && user.email) { // agrega esta condición
+        if (user && user.email) {
             getOrders(user.email).then((data) => {
                 setOrders(data);
             }).catch((e) => navigate("/error"))
@@ -30,11 +22,11 @@ export const Orders = () => {
 
     return (
         <div className="text-center mt-5">
-            <h2><b>Tus pedidos</b></h2>
+            <h2><b>Mis pedidos</b></h2>
             {orders.map((order) => (
                 <div key={order.id} className="my-5">
                     <div>Fecha: <b><b>{order.fecha}</b></b></div>
-                    <div>ID de la orden: <b><b>{order.id}</b></b></div>
+                    <div>ID del pedido: <b><b>{order.id}</b></b></div>
                     <br />
                     <div>Items: 
                         <br />
@@ -47,7 +39,7 @@ export const Orders = () => {
                                 </div>
                             ))}
                     </div>
-                    <div>Valor total: <b><b>${order.total}</b></b></div>
+                    <div><b><b>Valor total: ${order.total}</b></b></div>
                     _______________________________________
                 </div>
             ))}

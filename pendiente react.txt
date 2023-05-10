@@ -1,0 +1,20 @@
+NUEVO FEATURE:
+	STOCK CHECK: Validar stock al momento de intentar generar la order.
+
+Ordenes:
+ - debe figurar el mail con el cual se esta haciendo la compra (la account)
+ - que no te permita enviar la orden si faltando datos
+ - revisar el emailToCheck
+
+Detail
+ - avisos en detail para que te indique que te esta faltando seleccionar un color
+ - arreglar que se ve feo cuando carga un producto
+- el boton de agregar al carrito funciona aunque no haya stock 
+
+ordenar por precio de mayor a menor y viceversa
+meterle favicon
+
+Agregarle Dark Mode
+
+Modificar estilos dentro de lo responsive
+

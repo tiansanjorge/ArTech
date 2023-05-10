@@ -13,14 +13,16 @@ const Account = () => {
   };
 
   return (
-    <div className='w-[300px] m-auto'>
-      <h1 className='text-center text-2xl font-bold pt-12'>Account</h1>
+    <div className='my-5 text-center'>
+      <h2 className='my-5'><b><b> Mi cuenta</b></b></h2>
       <div>
-        <p>Welcome, {user?.displayName}</p>
+        <p><b>{user?.displayName}</b></p>
+        <p>{user?.email}</p>
+        <p className='my-5'>Puedes visualizar los pedidos generados con este email en la sección <a style={{ color: "#000"}} href="/orders"><b>Mis pedidos</b></a> </p>
       </div>
       
-      <button onClick={handleSignOut} className='border py-2 px-5 mt-10'>
-        Logout
+      <button onClick={handleSignOut} className='border py-2 px-5 mt-5'>
+        Cerrar Sesión
       </button>
     </div>
   );

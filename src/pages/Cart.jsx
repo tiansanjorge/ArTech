@@ -78,20 +78,36 @@ export const Cart = () => {
     // console.log("email", email, "emailtocheck", emailToCheck)
   }
 
-  const { getTotal, cart, discount, emptyCart, removeProduct } = useCartContext();
+  const { getTotal, cart, discount, emptyCart, removeProduct} = useCartContext();
 
   
-  if (cart.length <= 0) return (
+  if (cart.length <= 0) 
+  return (
     <div className="d-flex justify-content-evenly">
-      <div className="text-center m-auto" style={{ fontWeight: 600 }}><BsFillCartFill /><br /> Su carrito esta vacío</div>
+      <div className="text-center my-5" style={{ fontWeight: 600 }}><BsFillCartFill /><br /><br /> Su carrito esta vacío</div>
     </div>
   );
 
   let discountSpan = ""
   if (discount){
-    discountSpan =<span>Descuento del 25% en la 3era misma unidad aplicado</span>}
+    discountSpan =<span className="text-success">Descuento del 25% en la 3era misma unidad aplicado</span>}
   else{
-    discountSpan =<span>No hay descuentos aplicados</span>}
+    discountSpan =<span className="text-danger">No hay descuentos aplicados</span>}
+
+  // Filtra el cart a ver si algun item tiene mas cantidad del sotck disponible.
+  const noStockItems = cart.filter(item => item.qty>item.stock);
+  console.log(noStockItems[0])
+
+  // Mensaje de error si no hay stock disponible
+
+  const errorStock = (e) => {
+    e.preventDefault();
+    let itemsWithoutStock = ""
+    for (let item of noStockItems) {
+      itemsWithoutStock += " - " + item.nombre
+    }
+    setMailError("Ya no hay suficientes productos en stock para la cantidad elegida de " + itemsWithoutStock )
+  }
 
   // Creamos la orden en firebase
 
@@ -143,7 +159,6 @@ export const Cart = () => {
         icon: 'success',
         confirmButtonText: 'OK'
       })
-
   };
 
   return (
@@ -184,6 +199,13 @@ export const Cart = () => {
         Total : <b><b>${getTotal()}</b></b>
       </span>
       </div>
+
+      <div className=" m-auto my-5 text-center">
+        <button className="border-5 rounded-5 bg-dark text-white"
+          onClick={() => emptyCart()}
+          >Vaciar carrito</button>
+      </div>
+
       <form style={{ display: "grid", gap: 10 }} className="mb-5" >
         <span>Nombre</span>
         <input
@@ -205,7 +227,7 @@ export const Cart = () => {
           style={{ border: "1px solid black", marginBottom: 15, height: 40 }}
           onBlur={(e) => checkEmail("checkInput", e.target.value)}
         />
-        <input type="submit" value="Enviar" onClick={createOrder} />
+        <input type="submit" value="Enviar" onClick={noStockItems.length > 0 ? errorStock : createOrder} />
       </form>
 
       <div>

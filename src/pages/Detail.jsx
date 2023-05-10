@@ -4,14 +4,14 @@ import { getProduct } from "../api/products";
 import { useNavigate } from "react-router-dom";
 import Counter from "../components/Counter";
 import { useCartContext } from "../context/cartContext";
-import { useWishlistContext } from "../context/wishlistContext";
+import { useFavoritesContext } from "../context/favoritesContext";
 
 export const Detail = () => {
   const navigate = useNavigate()
   // el param "productId" es sacado de la ruta (app.js) y fue brindado por el componente "Item.jsx"
   const  { productId }  = useParams();
   const { addProduct } = useCartContext();
-  const {addToWishlist} = useWishlistContext();
+  const {addToFavorites} = useFavoritesContext();
   const [product, setProduct] = useState({});
 
   useEffect(() => {
@@ -24,8 +24,8 @@ export const Detail = () => {
     addProduct(product, qty, color);
   };
 
-  const wishlistAdd = (qty, color) => {
-    addToWishlist(product, qty, color);
+  const favoritesAdd = (qty, color) => {
+    addToFavorites(product, qty, color);
   };
 
   return (
@@ -34,7 +34,7 @@ export const Detail = () => {
       <div className="row mx-0 my-2 text-center align-items-center">
         <div>
           <h2><b> Llevando 3 productos iguales : 25% de descuento en una unidad</b></h2>
-          <h4>Promoción no acumulable en un mismo producto</h4>
+          <h4>* Promoción no acumulable en un mismo producto</h4>
         </div>
         <div className="col-6"><img className="img-fluid" src={product?.img} alt={product?.nombre} /></div>
         <div className="col-6">
@@ -47,7 +47,7 @@ export const Detail = () => {
           <Counter
           stock={product?.stock}
           onAdd={handleAdd}
-          wishlistAdd={wishlistAdd}
+          favoritesAdd={favoritesAdd}
           />
         </div>
       </div>

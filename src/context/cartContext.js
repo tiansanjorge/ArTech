@@ -51,6 +51,7 @@ export const CartProvider = ({ children }) => {
   // agregamos un producto
   const addProduct = (item, qty, color) => {
 
+    console.log(item)
     // verificamos si el producto ya existe dentro del carrito
     const element = cart.find((product) => product.id === item.id && product.color === color );
 

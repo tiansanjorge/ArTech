@@ -1,14 +1,14 @@
 import Tag from "./Tag";
 import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
-import { useWishlistContext } from "../context/wishlistContext";
+import { useFavoritesContext } from "../context/favoritesContext";
 import { BsFillCartFill } from "react-icons/bs";
-import { BsMagic } from "react-icons/bs";
+import { BsHeartFill } from "react-icons/bs";
 
-const Item = ({ id, valor, img, nombre, categoria, tag }) => {
+const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
   const navigate = useNavigate();
   const {addProduct} = useCartContext();
-  const {addToWishlist} = useWishlistContext();
+  const {addToFavorites} = useFavoritesContext();
   return (
     <div className="card" onClick={() =>navigate(`/product/${id}`)}>
       <div className="card__top">
@@ -22,15 +22,15 @@ const Item = ({ id, valor, img, nombre, categoria, tag }) => {
         <button className="border-5 rounded-5 bg-dark text-white"
           onClick={(e) => {
             e.stopPropagation();
-            addToWishlist({id, nombre, valor, categoria, tag, img}, 1, "Negro")
+            addToFavorites({id, nombre, valor, categoria, tag, img, stock}, 1, "Negro")
           }}
         >
-          Añadir a la wishlist <BsMagic/>
+          Añadir a favoritos <BsHeartFill/>
         </button>
         <button className="border-5 rounded-5 bg-dark text-white"
           onClick={(e) => {
             e.stopPropagation();
-            addProduct({id, nombre, valor, categoria, tag, img}, 1, "Negro")
+            addProduct({id, nombre, valor, categoria, tag, img, stock}, 1, "Negro")
           }}
         >
           Añadir al carrito <BsFillCartFill />

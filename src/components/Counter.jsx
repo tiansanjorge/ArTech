@@ -3,7 +3,7 @@ import Button from "./Button";
 import Select from "react-select";
 
 
-const Counter = ({ stock, onAdd, wishlistAdd }) => {
+const Counter = ({ stock, onAdd, favoritesAdd }) => {
 
   const [contador, setContador] = useState(0);
 
@@ -44,10 +44,10 @@ const Counter = ({ stock, onAdd, wishlistAdd }) => {
         <Button onClick={() => handleAdd()}>+</Button>
       </div>
       <Button onClick={() => {
-        if(contador && color) wishlistAdd(contador, color);   
+        if(contador && color) favoritesAdd(contador, color);   
       }}
       disabled={!contador}> 
-        Agregar a la Wishlist
+        Agregar a favoritos
       </Button>
       <Button onClick={() => {
         if(contador && color) onAdd(contador, color);   

@@ -22,8 +22,8 @@ const SignIn = () => {
   }, [user]);
 
   return (
-    <div className='text-center'>
-      <h1 className=''>Sign in</h1>
+    <div className='text-center my-5'>
+      <h1 className='my-5'>Sign in</h1>
       <div className='d-flex justify-content-center w-100'>
         <GoogleButton className='m-0' onClick={handleGoogleSignIn}/>
       </div>
