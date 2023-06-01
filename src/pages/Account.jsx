@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuthContext } from '../context/authContext';
+import { Link } from "react-router-dom";
 
 const Account = () => {
   const { logOut, user } = useAuthContext();
@@ -18,7 +19,7 @@ const Account = () => {
       <div>
         <p><b>{user?.displayName}</b></p>
         <p>{user?.email}</p>
-        <p className='my-5'>Puedes visualizar los pedidos generados con este email en la sección <a style={{ color: "#000"}} href="/orders"><b>Mis pedidos</b></a> </p>
+        <p className='my-5'>Puedes visualizar los pedidos generados con este email en la sección <Link style={{ color: "#000"}} to="/orders"><b>Mis pedidos</b></Link> </p>
       </div>
       
       <button onClick={handleSignOut} className='border py-2 px-5 mt-5'>

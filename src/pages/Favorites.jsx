@@ -10,8 +10,6 @@ export const Favorites = () => {
   const { favorites, removeOfFavorites, emptyFavorites } = useFavoritesContext();
   const { addProduct} = useCartContext();
 
-  console.log(favorites)
-
   if (favorites.length <= 0) return (
     <div className="text-center">
       <h2 className="text-center my-5"><BsHeartFill/></h2>
@@ -36,9 +34,10 @@ export const Favorites = () => {
             alignItems: "center",
             justifyContent: "space-evenly",
           }} className="m-auto">
-          <div>Producto : <b><b>{product.nombre}</b></b></div>
-          <div>Valor unitario : <b><b>${product.valor}</b></b></div>
-          <div>Color : <b><b>{product.color}</b></b></div>
+          <div className="h-50"><img className="img-fluid h-100" src={product.img} alt="" /></div>
+          <div>Producto: <b><b>{product.nombre}</b></b></div>
+          <div>Valor unitario: <b><b>${product.valor}</b></b></div>
+          <div>Color: <b><b>{product.color}</b></b></div>
           <b><b><FavCounter onAdd={handleAdd} product={product}/></b></b>
           
           <button className="border-5 rounded-5 bg-dark text-white"

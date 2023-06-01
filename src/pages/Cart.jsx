@@ -1,86 +1,54 @@
 import { BsFillCartFill } from "react-icons/bs";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import { addOrder } from "../api/orders";
 import { updateManyProducts } from "../api/products";
 import { useCartContext } from "../context/cartContext";
+import { useAuthContext } from '../context/authContext';
+import { Link } from "react-router-dom";
 import Swal from 'sweetalert2'
 
 export const Cart = () => {
 
-  // Los RegEx (o expresiones regulares) permiten en este caso nos permiten validar que un telefono o email sea valido (que tenga "@" y luego tenga algo escrito antes de un ".com", etc.)
-  const emailRegEx =
-    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-  // (que solo permita numeros, mas de 7 numeros y menos de 15, etc. )
-    const phoneRegEx = /^\+?[1-9][0-9]{7,14}$/;
+  const { getTotal, cart, discount, emptyCart, removeProduct} = useCartContext();
+  const { user } = useAuthContext();
+
+  // Este RegEx permite validar que un telefono solo permita numeros, mas de 7 y menos de 15)
+  const phoneRegEx = /^\+?[1-9][0-9]{7,14}$/;
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [checkMail, setCheckMail] = useState("");
+  
+  const [nameError, setNameError] = useState("")
+  const [phoneError, setPhoneError] = useState("")
+  const [stockError, setStockError] = useState("")
 
   const [orderState] = useState("generated");
-  // const [orderInfo, setOrderInfo] = useState([]);
 
-  const [phoneError, setPhoneError] = useState("")
-  const [mailError, setMailError] = useState("")
-  const [checkMailError, setCheckMailError] = useState("");
-  
   let dateObj = new Date();
   let month = dateObj.getUTCMonth() + 1; //months from 1-12
   let day = dateObj.getUTCDate();
   let year = dateObj.getUTCFullYear();
-  
   let newdate = day + "/" + month + "/" + year;
 
-  // Función que será llamada en la siguiente funcion "validateInput" para validar datos con los RegEX declarados previamente
-  const validateRegEx = (value, regEx) => {
-    return String(value)
-      .toLowerCase()
-      .match(regEx);
-  };
+  // Establezco en la variable email el correo de la cuenta que inicio sesión
+  useEffect(() => {
+    if (user) {
+      setEmail(user.email);
+    }
+  }, [user]);
 
-  // Funcion para validar los datos de los inputs mail y telefono
-  // le pasamos el parametro "value" que provendrá del evento onBlur del input y el type que sera declarado como "email" o "phone"
-  const validateInput = (value, type) => {
-    checkEmail("", value)
-    switch (type) {
-
-      case "email":
-        // Si la validación con el RegEx matchea y es correcto...
-        if (validateRegEx(value, emailRegEx)) {
-          setEmail(value)
-          setMailError("")
-        } 
-        // Si la funcion "validateRegEx" nos devuelve un valor falso...
-        else {
-          value && setMailError("email Invalido")
-        }
-        break;
-      
-      // Este es el caso del type "phone", pero es lo mismo dejar default ya que son solo 2 types. 
-      default:
-        if (validateRegEx(value, phoneRegEx)) {
-          setPhone(value)
-          setPhoneError("")
-        } else {
-          setPhoneError("Telefono invalido")
-        }
-
-    };
+  // Valido el valor phone con el RegEx de telefono declarado previamente ("phoneRegEx")
+  const validatePhone = (value) => {
+    if (String(value).toLowerCase().match(phoneRegEx)) {
+        setPhone(value)
+        setPhoneError("")
+      } else {
+        setPhoneError("Telefono invalido")
+      }
   }
 
-  // Chequear si los mails de ambos inputs de mails coinciden
-  const checkEmail = (from, emailToCheck) => {
-    setCheckMailError("");
-    if (email === emailToCheck && from === "checkInput" ) setCheckMail(emailToCheck);
-    if (emailToCheck !== checkMail && checkMail) setCheckMailError("Los correos no coinciden")
-
-    // console.log("email", email, "emailtocheck", emailToCheck)
-  }
-
-  const { getTotal, cart, discount, emptyCart, removeProduct} = useCartContext();
-
-  
+  // Si el carrito está vació se muestra este mensaje
   if (cart.length <= 0) 
   return (
     <div className="d-flex justify-content-evenly">
@@ -88,32 +56,41 @@ export const Cart = () => {
     </div>
   );
 
+  // Verifico la variable discount importada del cartContext y muestro el aviso de si se aplica o no
   let discountSpan = ""
   if (discount){
     discountSpan =<span className="text-success">Descuento del 25% en la 3era misma unidad aplicado</span>}
   else{
     discountSpan =<span className="text-danger">No hay descuentos aplicados</span>}
 
-  // Filtra el cart a ver si algun item tiene mas cantidad del sotck disponible.
+  // Filtra el cart a ver si algun item tiene mas cantidad del stock disponible en firebase.
   const noStockItems = cart.filter(item => item.qty>item.stock);
-  console.log(noStockItems[0])
-
-  // Mensaje de error si no hay stock disponible
-
-  const errorStock = (e) => {
-    e.preventDefault();
-    let itemsWithoutStock = ""
-    for (let item of noStockItems) {
-      itemsWithoutStock += " - " + item.nombre
-    }
-    setMailError("Ya no hay suficientes productos en stock para la cantidad elegida de " + itemsWithoutStock )
-  }
 
   // Creamos la orden en firebase
-
   const createOrder = async (e) => {
-    // Como esta función esta siendo llamada desde el boton tipo "submit" del form, el "e.preventDefault" esta previniendo el comportamiento por default que tiene el submit, el cual es un "get" request a la URL por defecto. Pasando en limpio, estamos previniendo ese comportamiento indeseado y definiendo, con las funciones a continuación, que sucede cuando se clickea en submit .
+    // Como esta función esta siendo llamada desde el boton tipo "submit" del form, el "e.preventDefault" esta previniendo el comportamiento por default que tiene el submit, el cual es un "get" request a la URL por defecto. Pasando en limpio, estamos anulando ese comportamiento indeseado y definiendo, con las funciones a continuación, que sucede cuando se clickea en submit .
     e.preventDefault();
+
+    // Antes de permitir que se envíe el formulario validamos que haya stock y que el nombre y telefono sean validos
+    if(noStockItems.length > 0){
+      let itemsWithoutStock = ""
+      for (let item of noStockItems) {
+      itemsWithoutStock += " - " + item.nombre
+      }
+      setStockError("No hay suficientes productos en stock para la cantidad elegida de " + itemsWithoutStock )
+      return;
+    }
+    else if (!name){
+      setNameError("Nombre invalido")
+      return;
+    }
+    else if (!phone) {
+      setNameError("")
+      setPhoneError("Teléfono invalido")
+      return;
+    }
+
+    setPhoneError("")
 
     // Armamos un nuevo array con 4 propiedades de cada objeto del array "cart" para facilitar el llamado
     const items = cart.map(({ id, nombre, qty, valor, color }) => ({
@@ -155,7 +132,7 @@ export const Cart = () => {
     Swal.fire(
       {
         title: "Pedido Realizado",
-        html: `El id de su compra es <b>"${id}"</b> <br> Fecha: ${fecha}<br><br> <b>Detalle de compra:</b><br> <br> <b>Comprador:</b> ${buyer.name} <br><br> ${itemsAlert}<br> <b>Total: $${total}</b>`,
+        html: `El id de su compra es <b>"${id}"</b><br>Fecha: ${fecha}<br><br><b>Detalle de compra:</b><br><br> <b>Comprador:</b> ${buyer.name} <br><br><b>Email:</b> ${buyer.email}<br><br> ${itemsAlert}<br><b>Total: $${total}</b> <br><br>Puedes visualizar este pedido en la sección "Mis pedidos"`,
         icon: 'success',
         confirmButtonText: 'OK'
       })
@@ -167,7 +144,7 @@ export const Cart = () => {
       <h2 className="text-center my-5"><BsFillCartFill /> Carrito <BsFillCartFill /> </h2>
 
       {cart.map((product) => (
-        <div key={product.id}
+        <div key={product.id + product.color}
           style={{
             display: "flex",
             gap: 50,
@@ -188,16 +165,17 @@ export const Cart = () => {
           >Eliminar</button>
         </div>
       ))}
+
       <div className="mx-auto my-4">
-      <span style={{
-        marginBottom: 50,
-        textAlign: "center",
-        width: "70%",
-        fontSize: 20,
-      }}>
-        {discountSpan} <br />
-        Total : <b><b>${getTotal()}</b></b>
-      </span>
+        <span style={{
+          marginBottom: 50,
+          textAlign: "center",
+          width: "70%",
+          fontSize: 20,
+        }}>
+          {discountSpan} <br />
+          Total : <b><b>${getTotal()}</b></b>
+        </span>
       </div>
 
       <div className=" m-auto my-5 text-center">
@@ -206,37 +184,37 @@ export const Cart = () => {
           >Vaciar carrito</button>
       </div>
 
-      <form style={{ display: "grid", gap: 10 }} className="mb-5" >
-        <span>Nombre</span>
-        <input
-          style={{ border: "1px solid black", height: 40 }}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <span>Telefono</span>
-        <input type={"phone"}
-          style={{ border: "1px solid black", height: 40 }}
-          onBlur={(e) => validateInput(e.target.value, "phone")}
-        />
-        <span>Email</span>
-        <input type={"email"}
-          style={{ border: "1px solid black", marginBottom: 15, height: 40 }}
-          onBlur={(e) => validateInput(e.target.value, "email")}
-        />
-        <span>Confirmar Email</span>
-        <input
-          style={{ border: "1px solid black", marginBottom: 15, height: 40 }}
-          onBlur={(e) => checkEmail("checkInput", e.target.value)}
-        />
-        <input type="submit" value="Enviar" onClick={noStockItems.length > 0 ? errorStock : createOrder} />
-      </form>
+      {email ?
+      (<div>
+        
+        <form style={{ display: "grid", gap: 10 }} className="my-5" >
+          <span className="text-center col-12" >Estas realizando el pedido con el email de tu cuenta <br /><br /><b> {email} </b></span>
 
-      <div>
-        {mailError}
-        <br />
-        {phoneError}
-        <br />
-        {checkMailError}
-      </div>
+          <div className="text-danger">
+            {stockError}
+            <br />
+            {nameError}
+            <br />
+            {phoneError}
+          </div>
+          <span>Nombre y apellido</span>
+          <input
+            style={{ border: "1px solid black", height: 40 }}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <span>Teléfono</span>
+          <input style={{ border: "1px solid black", height: 40 }} onBlur={(e) => validatePhone(e.target.value)}/> 
+
+          <input type="submit" value="Realizar Pedido" onClick={createOrder} /> 
+        </form>
+
+        
+      </div>)
+      :
+      (<div className="text-center col-12 mt-5"><div className="py-5">Debes iniciar sesión con una cuenta para realizar un pedido</div> 
+        <Link className="p-3" style={{ color: "#000", textDecoration: "none", borderStyle: "solid", borderRadius: 5}} to='/signin'><b> Iniciar Sesión </b></Link>
+      </div>)
+      }
 
     </div>
 

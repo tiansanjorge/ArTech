@@ -21,9 +21,9 @@ const FavCounter = ({ onAdd, product }) => {
 
     return (
         <div  className="d-flex">
-            <div >
+            <div className="d-flex" >
                 <Button className="mx-4" onClick={() => handleSubstract()}>-</Button>
-                <span className="mx-4">{contador}</span>
+                <span className="mx-2">{contador}</span>
                 <Button className="mx-4" onClick={() => handleAdd()}>+</Button>
             </div>
             <div>

@@ -1,20 +1,17 @@
-NUEVO FEATURE:
-	STOCK CHECK: Validar stock al momento de intentar generar la order.
+Home, categorias
+- opcion ordenar por precio de mayor a menor y viceversa
 
-Ordenes:
- - debe figurar el mail con el cual se esta haciendo la compra (la account)
- - que no te permita enviar la orden si faltando datos
- - revisar el emailToCheck
+Diseño
+- meterle favicon
+- Meterle estilos
+- Agregarle Dark Mode
+- Modificar estilos dentro de lo responsive
 
-Detail
- - avisos en detail para que te indique que te esta faltando seleccionar un color
- - arreglar que se ve feo cuando carga un producto
-- el boton de agregar al carrito funciona aunque no haya stock 
+Linkedin
+-Subirlo a Git Hub
+-Linkear LinkedIn con mi git hub
+-Seguir reclutadores y postularse para propuestas
 
-ordenar por precio de mayor a menor y viceversa
-meterle favicon
-
-Agregarle Dark Mode
-
-Modificar estilos dentro de lo responsive
+EXTRAS!
+• guardar en session storage el contador de los productos en FAVORITES y los values de los inputs en CART
 

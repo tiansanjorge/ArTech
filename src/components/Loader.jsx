@@ -1,3 +1,6 @@
+import { BsClockHistory } from "react-icons/bs";
+
 export const Loader = () => {
-    return <span style={{gridColumn: "1/4"}} className="m-auto mt-5 textcenter">Cargando...</span>
+    return <div style={{gridColumn: "1/4"}} className="my-5 textcenter"><b><BsClockHistory className="mb-1"/> Cargando...</b></div>
+    
 }

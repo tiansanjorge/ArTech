@@ -16,10 +16,10 @@ export const NavBar = () => {
 
   const { user } = useAuthContext();
 
-  const [dropdown, SetDropdown] =useState(false);
+  const [dropdown, setDropdown] =useState(false);
 
   const toggleDropdown = () => {
-    SetDropdown(!dropdown)
+    setDropdown(!dropdown)
   }
 
   return (
