@@ -36,20 +36,20 @@ const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
     const qtyItemsSameName = itemsSameName.map(item => item.qty)
     const totalQty = qtyItemsSameName.reduce((sum, value) => sum + value, 0) +1;
 
-    if ( totalQty >= stock) {
-      setFavoriteDisabled(true)
-    } else {
-      setFavoriteDisabled(false)
-    }
+    // if ( totalQty >= stock) {
+    //   setFavoriteDisabled(true)
+    // } else {
+    //   setFavoriteDisabled(false)
+    // }
   }
 
-  useEffect(() => {
-    counterFavoriteCheck();
-  }, []);
+  // useEffect(() => {
+  //   counterFavoriteCheck();
+  // }, []);
 
 
   const handleAddToFavorites = () => {
-    counterFavoriteCheck();
+    // counterFavoriteCheck();
     if (!favoriteDisabled) {
       addToFavorites({ id, nombre, valor, categoria, tag, img, stock }, 1, "Negro");
     }

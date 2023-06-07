@@ -39,11 +39,9 @@ const ItemContainer = ({ products, loading }) => {
                     Ordenar<BsFillCaretDownFill/>
                     </DropdownToggle>
                     <DropdownMenu >
-                        <DropdownItem>
-                            <button onClick={() => sortLowHigh()}>Precio menor a mayor</button> 
+                        <DropdownItem onClick={() => sortLowHigh()}>Precio menor a mayor
                         </DropdownItem>
-                        <DropdownItem>
-                            <button onClick={() => sortHighLow()}>Precio mayor a menor</button>
+                        <DropdownItem onClick={() => sortHighLow()}>Precio mayor a menor
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>

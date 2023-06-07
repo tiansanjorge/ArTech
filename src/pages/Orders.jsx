@@ -21,6 +21,7 @@ export const Orders = () => {
                 setLoading(false);
             }).catch((e) => navigate("/error"))
         }
+        else{setLoading(false)}
     }, [user?.email]);
 
     // Función para convertir la string de order.fecha en un objeto Date

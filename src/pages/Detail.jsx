@@ -26,6 +26,7 @@ export const Detail = () => {
 
   const handleAdd = (qty, color) => {
     addProduct(product, qty, color);
+  
   };
 
   const favoritesAdd = (qty, color) => {

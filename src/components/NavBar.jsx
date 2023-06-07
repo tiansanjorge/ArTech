@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { BsFillCartFill, BsHeartFill, BsFillCaretDownFill } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
@@ -7,13 +7,11 @@ import { useAuthContext } from '../context/authContext';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
 
 
-
 const links = ["allProducts","Celulares", "Televisores", ];
 
 export const NavBar = () => {
   const { getCartQty } = useCartContext();
   const { getFavoritesQty } = useFavoritesContext();
-
   const { user } = useAuthContext();
 
   const [dropdown, setDropdown] =useState(false);

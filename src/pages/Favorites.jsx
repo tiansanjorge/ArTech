@@ -1,14 +1,12 @@
 
 import { BsHeartFill } from "react-icons/bs";
 import { useFavoritesContext } from "../context/favoritesContext";
-import { useCartContext } from "../context/cartContext";
 import FavCounter from "../components/FavCounter";
 
 
 export const Favorites = () => {
 
   const { favorites, removeOfFavorites, emptyFavorites } = useFavoritesContext();
-  const { addProduct} = useCartContext();
 
   if (favorites.length <= 0) return (
     <div className="text-center">
@@ -16,10 +14,6 @@ export const Favorites = () => {
       <div className="text-center m-auto" style={{ fontWeight: 600 }}>No has agregado ningún producto a favoritos.</div>
     </div>
   );
-
-  const handleAdd = (product, qty, color) => {
-    addProduct(product, qty, color);
-  };
 
   return (
 
@@ -38,12 +32,12 @@ export const Favorites = () => {
           <div>Producto: <b><b>{product.nombre}</b></b></div>
           <div>Valor unitario: <b><b>${product.valor}</b></b></div>
           <div>Color: <b><b>{product.color}</b></b></div>
-          <b><b><FavCounter onAdd={handleAdd} product={product}/></b></b>
+          <FavCounter product={product}/>
           
           <button className="border-5 rounded-5 bg-dark text-white"
           onClick={(e) => {
             e.stopPropagation();
-            removeOfFavorites(product.id, product.color)
+            removeOfFavorites(product.id, product.color);
           }}
           >Eliminar</button>
         </div>

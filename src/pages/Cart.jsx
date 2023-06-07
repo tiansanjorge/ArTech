@@ -18,6 +18,9 @@ export const Cart = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+
+  const [inputPhone, setInputPhone] = useState("");
+  const [inputName, setInputName] = useState("");
   
   const [nameError, setNameError] = useState("")
   const [phoneError, setPhoneError] = useState("")
@@ -40,13 +43,37 @@ export const Cart = () => {
 
   // Valido el valor phone con el RegEx de telefono declarado previamente ("phoneRegEx")
   const validatePhone = (value) => {
-    if (String(value).toLowerCase().match(phoneRegEx)) {
-        setPhone(value)
-        setPhoneError("")
-      } else {
-        setPhoneError("Telefono invalido")
-      }
+    if (value === "") {
+      setPhone(value);
+      setPhoneError("");
+    } else if (String(value).toLowerCase().match(phoneRegEx)) {
+      setPhone(value);
+      setPhoneError("");
+    } else {
+      setPhoneError("Teléfono inválido");
+    }
   }
+
+  
+  // guardo en localStorage los valores de los inputs
+
+  useEffect(() => {
+    const storedPhone = localStorage.getItem("phone");
+    const storedName = localStorage.getItem("name");
+    
+    if (storedPhone && storedPhone !== ""){
+
+      setInputPhone(JSON.parse(storedPhone));
+      validatePhone(inputPhone)
+
+    }
+    if (storedName) {
+      setInputName(JSON.parse(storedName));
+    }
+  }, []);
+
+  const storeInputPhone = (valor) => {setInputPhone(valor); localStorage.setItem("phone", JSON.stringify(valor))};
+  const storeInputName = (valor) =>{setInputName(valor); localStorage.setItem("name", JSON.stringify(valor))};
 
   // Si el carrito está vació se muestra este mensaje
   if (cart.length <= 0) 
@@ -55,6 +82,7 @@ export const Cart = () => {
       <div className="text-center my-5" style={{ fontWeight: 600 }}><BsFillCartFill /><br /><br /> Su carrito esta vacío</div>
     </div>
   );
+
 
   // Verifico la variable discount importada del cartContext y muestro el aviso de si se aplica o no
   let discountSpan = ""
@@ -65,6 +93,7 @@ export const Cart = () => {
 
   // Filtra el cart a ver si algun item tiene mas cantidad del stock disponible en firebase.
   const noStockItems = cart.filter(item => item.qty>item.stock);
+
 
   // Creamos la orden en firebase
   const createOrder = async (e) => {
@@ -81,12 +110,12 @@ export const Cart = () => {
       return;
     }
     else if (!name){
-      setNameError("Nombre invalido")
+      setNameError("Nombre inválido")
       return;
     }
     else if (!phone) {
       setNameError("")
-      setPhoneError("Teléfono invalido")
+      setPhoneError("Teléfono inválido")
       return;
     }
 
@@ -200,10 +229,15 @@ export const Cart = () => {
           <span>Nombre y apellido</span>
           <input
             style={{ border: "1px solid black", height: 40 }}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {setName(e.target.value); storeInputName(e.target.value)}}
+            onBlur={(e) => {storeInputName(e.target.value)}}
+            defaultValue={inputName}
           />
           <span>Teléfono</span>
-          <input style={{ border: "1px solid black", height: 40 }} onBlur={(e) => validatePhone(e.target.value)}/> 
+          <input style={{ border: "1px solid black", height: 40 }} 
+          onChange={(e) => {validatePhone(e.target.value); storeInputPhone(e.target.value)}}
+          onBlur={(e) => {storeInputPhone(e.target.value)}}
+          defaultValue={inputPhone}/>
 
           <input type="submit" value="Realizar Pedido" onClick={createOrder} /> 
         </form>
