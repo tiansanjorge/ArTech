@@ -64,10 +64,11 @@ export const Cart = () => {
     if (storedPhone && storedPhone !== ""){
 
       setInputPhone(JSON.parse(storedPhone));
-      validatePhone(inputPhone)
+      validatePhone(JSON.parse(storedPhone))
 
     }
     if (storedName) {
+      setName(JSON.parse(storedName))
       setInputName(JSON.parse(storedName));
     }
   }, []);
@@ -118,8 +119,11 @@ export const Cart = () => {
       setPhoneError("Teléfono inválido")
       return;
     }
-
     setPhoneError("")
+
+    // Si queremos vaciar los inputs una vez que se genera la orden:
+    // storeInputPhone("")
+    // storeInputName("")
 
     // Armamos un nuevo array con 4 propiedades de cada objeto del array "cart" para facilitar el llamado
     const items = cart.map(({ id, nombre, qty, valor, color }) => ({
