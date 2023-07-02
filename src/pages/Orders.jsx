@@ -12,7 +12,8 @@ export const Orders = () => {
     const { user } = useAuthContext();
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const [loading2, setLoading2] = useState(true);
+    
     useEffect(() => {
         if (user && user.email) {
             getOrders(user.email).then((data) => {
@@ -23,6 +24,11 @@ export const Orders = () => {
         }
         else{setLoading(false)}
     }, [user?.email]);
+
+    // Esto es para que aparezca el mensaje "Cargando..."" en vez de "No has realizado ningún pedido." mientras carga las ordenes de firebase.
+    setTimeout(() => {
+        setLoading2(false)
+    }, 2000);
 
     // Función para convertir la string de order.fecha en un objeto Date
     const parseDate = (dateString) => {
@@ -41,50 +47,54 @@ export const Orders = () => {
     };
 
     return (
-        <div className="text-center my-5">
-            <h2><b>Mis pedidos</b></h2>
+        <div className="minH text-center my-5 col-lg-8 col-11 mx-auto">
+            <h3 className='shadow-sm py-2 bg-lightblue rounded'>Pedidos</h3>
         
         {loading ? <Loader /> :
-        <div>
-            {/* Verifica si hay usuario logeado y devuelve lo siguiente */}
-            {user ?
-            // si ese usuario tiene algun pedido se devuelve lo siguiente 
-            (orders.length > 0 ?
-            <div className="row align-items-center justify-content-around">
-                {orders.map((order) => (
-                    <div key={order.id} className="col-3 mx-1 my-4 p-5 border">
-                        <div>Fecha: <b><b>{order.fecha}</b></b></div>
-                        <div>ID del pedido: <b><b>{order.id}</b></b></div>
-                        <br />
-                        <div>Items: 
-                            <br />
-                            <br />
-                                {order.items.map((item) => (
-                                    <div key={item.id + item.color}>
-                                        <b><b>{item.nombre} - {item.color}</b></b> x<b><b>{item.qty}</b></b><br />Precio Unitario: <b><b>${item.valor}</b></b>
-                                        <br />
-                                        <br />
-                                    </div>
-                                ))}
+            <div>
+                {/* Verifica si hay usuario logeado y devuelve lo siguiente */}
+                {user ?
+                // si ese usuario tiene algun pedido se devuelve lo siguiente 
+                    (orders.length > 0 ?
+                        <div className="row justify-content-around" >
+                            {orders.map((order) => (
                                 
+                                <div key={order.id} className="col-xl-4 col-lg-5 col-md-5 col-9 mx-1 my-4 py-5 px-3 align-top shadow" style={{border: "2px" , borderStyle: 'dashed', borderColor: "#1684a3"}}>
+                                    <div>Fecha: <span className="text-danger"><b><b>{order.fecha}</b></b></span></div>
+                                    <br />
+                                    <div>ID de Orden: <b><b>{order.id}</b></b></div>
+                                    <br />
+                                    <div>Items: 
+                                        <br />
+                                        <br />
+                                            {order.items.map((item) => (
+                                                <div key={item.id + item.color}>
+                                                    <b><b>{item.nombre} - {item.color}</b></b> x<b><b>{item.qty}</b></b><br /><br />Precio Unitario: <b><b>${item.valor}</b></b>
+                                                    <br />
+                                                    <br />
+                                                </div>
+                                            ))}
+                                            
+                                    </div>
+                                    <div><b><b>Valor total: </b></b><span className="text-success"><b><b>${order.total}</b></b></span></div>
+                                    
+                                </div>
+                            ))}
                         </div>
-                        <div><b><b>Valor total: ${order.total}</b></b></div>
-                        
+                    :(loading2 ? <Loader /> :
+                    // si no hay pedidos se devuelve lo siguiente 
+                    <div className="text-center col-12 mt-5">No has realizado ningún pedido.</div>
+                    )
+                ):
+                // si no detecta un usuario logeado devuelve lo siguiente
+                (
+                    <div className="text-center col-12 mt-5"><div className="py-5">Debes iniciar sesión con una cuenta para visualizar tus pedidos</div> 
+                        <Link className="p-3 text-decoration-none border border-dark rounded hover1"  to='/signin'><b> Iniciar Sesión </b></Link>
                     </div>
-                ))}
+                )
+
+                }
             </div>
-            :
-            // si no hay pedidos se devuelve lo siguiente 
-            <div className="text-center col-12 mt-5">No has realizado ningún pedido.</div>
-            ):
-            // si no detecta un usuario logeado devuelve lo siguiente
-            (
-                <div className="text-center col-12 mt-5"><div className="py-5">Debes iniciar sesión con una cuenta para visualizar tus pedidos</div> 
-                    <Link className="p-3" style={{ color: "#000", textDecoration: "none", borderStyle: "solid", borderRadius: 5}} to='/signin'><b> Iniciar Sesión </b></Link>
-                </div>
-            )
-            }
-        </div>
         }
             
         </div>

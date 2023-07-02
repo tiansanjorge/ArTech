@@ -5,31 +5,14 @@ import { SideBanner } from "./SideBanner";
 
 export const UserLayout = () => {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-      }}
-    >
+    <div className="minH d-flex flex-column justify-content-between">
       <NavBar />
-      <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-      >
-        <div style={{
-        minHeight: "100vh",
-        }} className="col-2 p-4">
+      <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center align-items-lg-start">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-2 p-lg-4 p-2 ">
           <SideBanner/>
         </div>
         <Outlet/>
-        <div style={{
-        minHeight: "100vh",
-        }}className="col-2 p-4">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-2 p-lg-4 p-2">
           <SideBanner/>
         </div>
       </div>

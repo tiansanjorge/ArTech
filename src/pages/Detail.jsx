@@ -1,14 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProduct } from "../api/products";
-import { useNavigate } from "react-router-dom";
 import Counter from "../components/Counter";
 import { useCartContext } from "../context/cartContext";
 import { useFavoritesContext } from "../context/favoritesContext";
 import { Loader } from "../components/Loader";
+import BannerDiscount from "../components/BannerDiscount";
 
 export const Detail = () => {
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(true);
   
   // el param "productId" es sacado de la ruta (app.js) y fue brindado por el componente "Item.jsx"
@@ -21,12 +20,11 @@ export const Detail = () => {
     getProduct(productId).then((data) => {
       setProduct(data);
       setLoading(false);
-    }).catch((e) => navigate("/error")) 
+    })
   }, [productId]);
 
   const handleAdd = (qty, color) => {
     addProduct(product, qty, color);
-  
   };
 
   const favoritesAdd = (qty, color) => {
@@ -36,28 +34,27 @@ export const Detail = () => {
   return (
 
     
-      <div className="row">
+      <div className="row minH ">
         
         {loading ? <Loader /> : 
-        <div className="row mx-0 mb-2 text-center align-items-center">
-          <div className="my-3">
-            <h2><b> Llevando 3 productos iguales : 25% de descuento en una unidad</b></h2>
-            <h4>* Promoción no acumulable en un mismo producto</h4>
-          </div>  
-          <div className="col-6"><img className="img-fluid" src={product?.img} alt={product?.nombre} /></div>
-          <div className="col-6">
-            <div className="mb-5"><b>{product?.nombre}</b></div>
-            <p className="mb-5">{product?.descripcion}</p>
-            <div className="mb-5">${product?.valor}</div>  
-            <div className="mb-3">
-            Quedan {product?.stock} disponibles
-            </div>        
-            <Counter
-            nombre={product?.nombre}
-            stock={product?.stock}
-            onAdd={handleAdd}
-            favoritesAdd={favoritesAdd}
-            />
+        <div className="row mx-0 mb-5 text-center align-items-center ">
+          <BannerDiscount></BannerDiscount>  
+          <div className="col-11 d-lg-flex mt-3 mx-auto">
+            <div className="col-lg-6 col-md-8 col-11 mx-auto"><img className="img-fluid p-5" src={product?.img} alt={product?.nombre} /></div>
+            <div className="col-lg-6 col-md-8 col-11 text-center m-auto ">
+              <div className="mb-5 text-blue size20"><b>{product?.nombre}</b></div>
+              <p className="mb-5 mx-5">{product?.descripcion}</p>
+              <p className="mb-5 bg-yellow rounded d-inline-block mx-auto px-2 shadow-sm">${product?.valor}</p>  
+              <div className="mb-3">
+              Quedan {product?.stock} disponibles
+              </div>        
+              <Counter
+              nombre={product?.nombre}
+              stock={product?.stock}
+              onAdd={handleAdd}
+              favoritesAdd={favoritesAdd}
+              />
+            </div>
           </div>
         </div>  }
         

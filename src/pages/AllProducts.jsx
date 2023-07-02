@@ -1,4 +1,5 @@
 import ItemContainer from "../components/ItemContainer";
+import BannerDiscount from "../components/BannerDiscount";
 import { useEffect, useState } from "react";
 import { getProducts} from "../api/products";
 
@@ -19,7 +20,9 @@ export const AllProducts = () => {
     }, []);
 
     return (
-        <main className="content">
+        <main className="row m-0 d-flex justify-content-evenly text-center">
+            <BannerDiscount></BannerDiscount>
+            <h2 className="col-11 ms-4 mt-2 text-start text-dark">Todos los Productos</h2>
             <ItemContainer
                 products={products}
                 loading={loading}

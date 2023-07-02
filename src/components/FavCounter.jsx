@@ -50,12 +50,12 @@ const FavCounter = ({ product }) => {
             </div>
             <div  className="d-flex">
                 <div className="d-flex" >
-                    <Button className="mx-4" onClick={() => handleSubstract()}>-</Button>
+                    <button className="button2 rounded-5 px-2 mx-2" onClick={() => handleSubstract()}>-</button>
                     <span className="mx-2">{contador}</span>
-                    <Button className="mx-4" onClick={() => handleAdd()}>+</Button>
+                    <button className="button2 rounded-5 px-2 mx-2" onClick={() => handleAdd()}>+</button>
                 </div>
                 <div>
-                    <button className="border-5 rounded-5 bg-dark text-white ms-4"
+                    <button className=" button2 rounded-5 ms-4 me-2 px-2"
                     onClick={() =>{counterCartCheck()}}
                         
                     ><BsFillCartPlusFill /></button>

@@ -1,4 +1,5 @@
 import ItemContainer from "../components/ItemContainer";
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProducts } from "../api/products";
@@ -20,8 +21,9 @@ export const Category = () => {
       })
   }, [categoryId]);
   return (
-    <main className="content">
-      <ItemContainer products={products} loading={loading} />
+    <main className="pb-5">
+
+      <ItemContainer products={products} loading={loading} category={categoryId}/>
     </main>
   );
 };

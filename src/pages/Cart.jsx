@@ -21,10 +21,12 @@ export const Cart = () => {
 
   const [inputPhone, setInputPhone] = useState("");
   const [inputName, setInputName] = useState("");
-  
-  const [nameError, setNameError] = useState("")
+
   const [phoneError, setPhoneError] = useState("")
   const [stockError, setStockError] = useState("")
+
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const [orderState] = useState("generated");
 
@@ -34,19 +36,74 @@ export const Cart = () => {
   let year = dateObj.getUTCFullYear();
   let newdate = day + "/" + month + "/" + year;
 
-  // Establezco en la variable email el correo de la cuenta que inicio sesión
+  // Establezco en el state email el correo de la cuenta que inicio sesión
   useEffect(() => {
     if (user) {
       setEmail(user.email);
     }
   }, [user]);
 
-  // Valido el valor phone con el RegEx de telefono declarado previamente ("phoneRegEx")
+  // Cargo del localStorage los valores de los inputs
+  useEffect(() => {
+    const storedPhone = localStorage.getItem("phone");
+    const storedName = localStorage.getItem("name");
+    
+    if (storedPhone){
+      setInputPhone(JSON.parse(storedPhone));
+      validatePhone(JSON.parse(storedPhone))
+    }
+
+    if (storedName) {
+      setName(JSON.parse(storedName));
+      setInputName(JSON.parse(storedName));
+    }
+    
+  }, []);
+
+  // Chequeo si el input de phone o name estan vacíos y en ese caso desactivo el boton submit del form
+  useEffect(() => {
+    if (phone === "" || name === ""){
+      setSubmitDisabled(true);
+      console.log(phone);
+      console.log(name)
+    }
+    else{
+      setSubmitDisabled(false)
+    }
+    
+  },);
+
+  // Chequeo si phoneError tiene algun valor y de ser así desactivo el boton submit del form
+  useEffect(() => {
+    if (phoneError !== "") {
+      setSubmitDisabled(true);
+    } else {
+      setSubmitDisabled(false);
+    }
+  }, [phoneError]);
+
+  // Muestro un mensaje para completar los campos vacíos
+  useEffect(() => {
+    if (submitDisabled === true){
+      setSubmitMessage("Debes completar los campos")
+    }
+    else{
+      setSubmitMessage("")
+    }
+    
+  },[submitDisabled]);
+
+  // funcion para guardar el valor de los input en localStorage
+  const storeInputPhone = (valor) => {setInputPhone(valor); localStorage.setItem("phone", JSON.stringify(valor))};
+  const storeInputName = (valor) =>{setInputName(valor); localStorage.setItem("name", JSON.stringify(valor))};
+
+  // Funcion para validar el valor phone con el RegEx de telefono declarado previamente ("phoneRegEx")
   const validatePhone = (value) => {
     if (value === "") {
       setPhone(value);
       setPhoneError("");
-    } else if (String(value).toLowerCase().match(phoneRegEx)) {
+    } else 
+    if (String(value).toLowerCase().match(phoneRegEx)) {
       setPhone(value);
       setPhoneError("");
     } else {
@@ -54,33 +111,12 @@ export const Cart = () => {
     }
   }
 
-  
-  // guardo en localStorage los valores de los inputs
-
-  useEffect(() => {
-    const storedPhone = localStorage.getItem("phone");
-    const storedName = localStorage.getItem("name");
-    
-    if (storedPhone && storedPhone !== ""){
-
-      setInputPhone(JSON.parse(storedPhone));
-      validatePhone(JSON.parse(storedPhone))
-
-    }
-    if (storedName) {
-      setName(JSON.parse(storedName))
-      setInputName(JSON.parse(storedName));
-    }
-  }, []);
-
-  const storeInputPhone = (valor) => {setInputPhone(valor); localStorage.setItem("phone", JSON.stringify(valor))};
-  const storeInputName = (valor) =>{setInputName(valor); localStorage.setItem("name", JSON.stringify(valor))};
-
   // Si el carrito está vació se muestra este mensaje
   if (cart.length <= 0) 
   return (
-    <div className="d-flex justify-content-evenly">
-      <div className="text-center my-5" style={{ fontWeight: 600 }}><BsFillCartFill /><br /><br /> Su carrito esta vacío</div>
+    <div className="text-center mb-5">
+      <h3 className="my-5"><BsFillCartFill /></h3>
+      <div><b>Su carrito esta vacío</b></div>
     </div>
   );
 
@@ -92,34 +128,23 @@ export const Cart = () => {
   else{
     discountSpan =<span className="text-danger">No hay descuentos aplicados</span>}
 
-  // Filtra el cart a ver si algun item tiene mas cantidad del stock disponible en firebase.
+  // Filtro el cart a ver si algun item tiene mas cantidad del stock disponible en firebase.
   const noStockItems = cart.filter(item => item.qty>item.stock);
 
-
-  // Creamos la orden en firebase
+  // FUNCION DEL SUBMIT - Genero la orden en firebase
   const createOrder = async (e) => {
     // Como esta función esta siendo llamada desde el boton tipo "submit" del form, el "e.preventDefault" esta previniendo el comportamiento por default que tiene el submit, el cual es un "get" request a la URL por defecto. Pasando en limpio, estamos anulando ese comportamiento indeseado y definiendo, con las funciones a continuación, que sucede cuando se clickea en submit .
     e.preventDefault();
 
-    // Antes de permitir que se envíe el formulario validamos que haya stock y que el nombre y telefono sean validos
+    // Validamos que haya stock. De no ser así detenemos la ejecución y devolvemos el error.
     if(noStockItems.length > 0){
       let itemsWithoutStock = ""
       for (let item of noStockItems) {
       itemsWithoutStock += " - " + item.nombre
       }
-      setStockError("No hay suficientes productos en stock para la cantidad elegida de " + itemsWithoutStock )
-      return;
+      setStockError("No hay suficientes productos en stock para la cantidad elegida de " + itemsWithoutStock)
+      return
     }
-    else if (!name){
-      setNameError("Nombre inválido")
-      return;
-    }
-    else if (!phone) {
-      setNameError("")
-      setPhoneError("Teléfono inválido")
-      return;
-    }
-    setPhoneError("")
 
     // Si queremos vaciar los inputs una vez que se genera la orden:
     // storeInputPhone("")
@@ -165,7 +190,7 @@ export const Cart = () => {
     Swal.fire(
       {
         title: "Pedido Realizado",
-        html: `El id de su compra es <b>"${id}"</b><br>Fecha: ${fecha}<br><br><b>Detalle de compra:</b><br><br> <b>Comprador:</b> ${buyer.name} <br><br><b>Email:</b> ${buyer.email}<br><br> ${itemsAlert}<br><b>Total: $${total}</b> <br><br>Puedes visualizar este pedido en la sección "Mis pedidos"`,
+        html: `El id de su compra es <b>"${id}"</b><br>Fecha: ${fecha}<br><br><b>Detalle de compra:</b><br><br> <b>Comprador:</b> ${buyer.name} <br><br><b>Email:</b> ${buyer.email}<br><br> ${itemsAlert}<br><b>Total: $${total}</b> <br><br>Puedes visualizar este pedido en la sección "Pedidos"`,
         icon: 'success',
         confirmButtonText: 'OK'
       })
@@ -173,84 +198,91 @@ export const Cart = () => {
 
   return (
 
-    <div className=" m-5">
-      <h2 className="text-center my-5"><BsFillCartFill /> Carrito <BsFillCartFill /> </h2>
+    <div className="minH col-lg-8 col-11 mx-auto">
+      <h3 className="text-center my-5 py-2 bg-lightblue rounded shadow-sm">Carrito </h3>
 
       {cart.map((product) => (
-        <div key={product.id + product.color}
-          style={{
-            display: "flex",
-            gap: 50,
-            height: 100,
-            alignItems: "center",
-            justifyContent: "space-evenly",
-          }} className="m-auto">
-          <div className="h-50"><img className="img-fluid h-100" src={product.img} alt="" /></div>
-          <div>Producto : <b><b>{product.nombre}</b></b></div>
-          <div>Valor unitario : <b><b>${product.valor}</b></b></div>
-          <div>Cantidad : <b><b>{product.qty}</b></b></div>
-          <div>Color : <b><b>{product.color}</b></b></div>
-          <button className="border-5 rounded-5 bg-dark text-white"
-          onClick={(e) => {
-            e.stopPropagation();
-            removeProduct(product.id, product.color)
-          }}
-          >Eliminar</button>
+        <div key={product.id + product.color} >
+          <div className="d-none d-md-flex text-center justify-content-evenly align-items-center py-3 rounded bg-yellow mb-2 mx-3 shadow">
+            <div className="h100"><img className=" img-fluid h-100" src={product.img} alt="" /></div>
+            <div className="w20"><b><b>{product.nombre}</b></b></div>
+            <div className="px-1">Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
+            <div className="px-1">Cantidad: <br /><b><b>{product.qty}</b></b></div>
+            <div className="ps-1 pe-2">Color: <br /><b><b>{product.color}</b></b></div>
+            <button className="px-2 rounded-5 button2"
+            onClick={(e) => {
+              e.stopPropagation();
+              removeProduct(product.id, product.color)
+            }}
+            >Eliminar</button>
+          </div>
+          <div className="d-flex d-md-none flex-column justify-content-evenly py-3 rounded bg-yellow mb-2 text-center mx-3">
+            <div className="d-flex justify-content-center">
+              <div className="h100 pe-5"><img className=" img-fluid h-100" src={product.img} alt="" /></div>
+              <div className="pt-3" ><b><b>{product.nombre}</b></b></div>
+            </div> 
+            <div className="d-flex justify-content-evenly pt-3 text-center">
+              <div>Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
+              <div>Cantidad: <br /><b><b>{product.qty}</b></b></div>
+              <div>Color: <br /><b><b>{product.color}</b></b></div>
+              <button className="px-2 rounded-5 button2"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeProduct(product.id, product.color)
+              }}
+              >Eliminar</button>
+            </div>
+          </div>
         </div>
       ))}
 
-      <div className="mx-auto my-4">
-        <span style={{
-          marginBottom: 50,
-          textAlign: "center",
-          width: "70%",
-          fontSize: 20,
-        }}>
+      <div className="mx-3 my-4">
+        <span className="size20 ">
           {discountSpan} <br />
-          Total : <b><b>${getTotal()}</b></b>
+          <span className="my-1 d-block"><b><b>Total: ${getTotal()}</b></b></span>
         </span>
       </div>
 
-      <div className=" m-auto my-5 text-center">
-        <button className="border-5 rounded-5 bg-dark text-white"
+      <div className="mx-auto mb-5 text-center">
+        <button className="mb-3 rounded-5 px-4 shadow-sm"
           onClick={() => emptyCart()}
           >Vaciar carrito</button>
       </div>
 
       {email ?
-      (<div>
-        
-        <form style={{ display: "grid", gap: 10 }} className="my-5" >
-          <span className="text-center col-12" >Estas realizando el pedido con el email de tu cuenta <br /><br /><b> {email} </b></span>
-
-          <div className="text-danger">
-            {stockError}
-            <br />
-            {nameError}
-            <br />
-            {phoneError}
+      (<div className="col-11 mx-auto">
+        <h2 className="ms-1 mb-4 text-blue">Finaliza tu pedido</h2>
+        <div className="ms-1 mb-3 text-dark" >Estas realizando el pedido desde <b> {email} </b></div>
+        <form className="d-flex col-8 col-sm-7 col-md-6 col-xl-5 flex-column justify-content-around mb-5 mt-3 p-3 rounded text-white bg-blue shadow" >
+          <div className="mt-2 text-yellow">
+          {stockError}
           </div>
           <span>Nombre y apellido</span>
           <input
-            style={{ border: "1px solid black", height: 40 }}
-            onChange={(e) => {setName(e.target.value); storeInputName(e.target.value)}}
-            onBlur={(e) => {storeInputName(e.target.value)}}
+            className="col-10 border rounded border-dark my-2 py-2"
+            onChange={(e) => {setName(e.target.value); storeInputName(e.target.value);}}
+            onBlur={(e) => {setName(e.target.value); storeInputName(e.target.value);}}
             defaultValue={inputName}
           />
+          <div className="mt-2 text-yellow">
+            {phoneError}
+          </div>
           <span>Teléfono</span>
-          <input style={{ border: "1px solid black", height: 40 }} 
+          <input className=" col-10 border rounded border-dark my-2 py-2"
           onChange={(e) => {validatePhone(e.target.value); storeInputPhone(e.target.value)}}
-          onBlur={(e) => {storeInputPhone(e.target.value)}}
+          onBlur={(e) => {validatePhone(e.target.value); storeInputPhone(e.target.value)}}
           defaultValue={inputPhone}/>
-
-          <input type="submit" value="Realizar Pedido" onClick={createOrder} /> 
+          <div className="mt-2 text-yellow">
+          {submitMessage}
+          </div>
+          <input className="mt-2 col-8 rounded button border border-dark shadow-sm" type="submit" value="Realizar Pedido" disabled={submitDisabled} onClick={createOrder} /> 
         </form>
 
         
       </div>)
       :
       (<div className="text-center col-12 mt-5"><div className="py-5">Debes iniciar sesión con una cuenta para realizar un pedido</div> 
-        <Link className="p-3" style={{ color: "#000", textDecoration: "none", borderStyle: "solid", borderRadius: 5}} to='/signin'><b> Iniciar Sesión </b></Link>
+        <Link className="p-3 text-decoration-none border border-dark rounded hover1" to='/signin'><b> Iniciar Sesión </b></Link>
       </div>)
       }
 

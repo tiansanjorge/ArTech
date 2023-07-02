@@ -1,4 +1,4 @@
-E-commerce de ArgenTech - empresa fantasía de tecnología.
+E-commerce de ArTech - empresa ficticia de tecnología.
 Aplicación web desarrollada con React JS.
 
 
