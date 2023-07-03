@@ -30,7 +30,7 @@ export const NavBar = () => {
       <Link className="text-decoration-none" to="/">
         <h2 className="text-dark"><b>Ar<span className="text-white">Tech</span> </b></h2>
       </Link>
-      <div className="d-block d-md-none mx-auto">
+      <div className="d-block d-md-none mxf-auto">
         <Dropdown isOpen={menuOpen} toggle={toggleMenu}>
           <DropdownToggle className="hover1 border-0">
             <span className="d-none d-sm-block"><BsList size={28}/></span>
