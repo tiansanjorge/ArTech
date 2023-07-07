@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
 import { useFavoritesContext } from "../context/favoritesContext";
 import { BsFillCartPlusFill } from "react-icons/bs";
-import { BsHeartFill } from "react-icons/bs";
+import { BsStarFill } from "react-icons/bs";
 
 const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
               handleAddToFavorites();
             }}
           >
-            A Favoritos <BsHeartFill />
+            A Favoritos <BsStarFill />
           </button>
           <button disabled={cartDisabled}  className={`px-3 rounded-5 border-0 ${cartDisabled ? ' bg-secondary' : 'hover1'}`}
             onClick={(e) => {

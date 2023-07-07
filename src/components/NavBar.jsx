@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { BsFillCartFill, BsHeartFill, BsFillCaretDownFill, BsList } from "react-icons/bs";
+import { BsFillCartFill, BsStarFill, BsFillCaretDownFill, BsList } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
 import { useFavoritesContext } from "../context/favoritesContext";
@@ -51,7 +51,7 @@ export const NavBar = () => {
                     to={`/category/${elemento}`}
                   >
                     <div>
-                      {elemento === "allProducts" ? "• Todos los Productos" : "• " + elemento }
+                      {elemento === "allProducts" ? "Todos los Productos" : elemento }
                     </div>
                   </NavLink>
                 </DropdownItem>
@@ -141,9 +141,9 @@ export const NavBar = () => {
       </div>
       <div className="col-3 d-flex justify-content-around py-3 rounded bg-yellow insetShadow">
         <Link className="hover5 text-decoration-none text-center" to="/favorites">
-          <span className="d-none d-lg-block">Favoritos <BsHeartFill/></span>
-          <span className="d-none d-md-block d-lg-none ">Favoritos <br /><BsHeartFill/></span>
-          <span className="d-block d-md-none "><BsHeartFill/></span>
+          <span className="d-none d-lg-block">Favoritos <BsStarFill/></span>
+          <span className="d-none d-md-block d-lg-none ">Favoritos <br /><BsStarFill/></span>
+          <span className="d-block d-md-none "><BsStarFill/></span>
           <span className="d-flex justify-content-around">{getFavoritesQty()}</span>
         </Link>
         <Link className="hover5 text-decoration-none text-center" to="/cart">

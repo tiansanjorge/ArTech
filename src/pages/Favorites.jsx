@@ -1,5 +1,5 @@
 
-import { BsHeartFill } from "react-icons/bs";
+import { BsStarFill } from "react-icons/bs";
 import { useFavoritesContext } from "../context/favoritesContext";
 import FavCounter from "../components/FavCounter";
 
@@ -10,7 +10,7 @@ export const Favorites = () => {
 
   if (favorites.length <= 0) return (
     <div className="text-center mb-5">
-      <h3 className="my-5"><BsHeartFill/></h3>
+      <h3 className="my-5"><BsStarFill/></h3>
       <div><b> No tienes productos en favoritos</b></div>
     </div>
   );

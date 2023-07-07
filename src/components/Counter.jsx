@@ -4,7 +4,7 @@ import Select from "react-select";
 import { useCartContext } from "../context/cartContext";
 import { useFavoritesContext } from "../context/favoritesContext";
 import { BsFillCartPlusFill } from "react-icons/bs";
-import { BsHeartFill } from "react-icons/bs";
+import { BsStarFill } from "react-icons/bs";
 
 
 const Counter = ({ nombre, stock, onAdd, favoritesAdd }) => {
@@ -93,7 +93,7 @@ const Counter = ({ nombre, stock, onAdd, favoritesAdd }) => {
       <div className="my-3 d-flex justify-content-center">
         <Button  onClick={counterFavoriteCheck}
         > 
-          A Favoritos <BsHeartFill />
+          A Favoritos <BsStarFill />
         </Button>
         <Button onClick={counterCartCheck}>
           Al carrito <BsFillCartPlusFill />
