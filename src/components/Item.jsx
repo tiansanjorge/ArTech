@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
 import { useFavoritesContext } from "../context/favoritesContext";
 import { BsFillCartPlusFill } from "react-icons/bs";
-import { BsStarFill } from "react-icons/bs";
+import { BsStarFill  } from "react-icons/bs";
 
 const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
   const navigate = useNavigate();
@@ -55,24 +55,23 @@ const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
       <Tag titulo={tag} />
       <div className="d-flex flex-column bg-blue rounded-bottom">
         <span className="card__name text-center pt-2 size16"><b>{nombre}</b></span>
-        <div className="d-flex justify-content-around my-3">
-          <button  className="px-3 rounded-5 border-0 hover1"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddToFavorites();
-            }}
-          >
-            A Favoritos <BsStarFill />
-          </button>
-          <button disabled={cartDisabled}  className={`px-3 rounded-5 border-0 ${cartDisabled ? ' bg-secondary' : 'hover1'}`}
+        <div className="d-flex justify-content-center my-3">
+          
+          <button disabled={cartDisabled}  className={`px-3 rounded-5 border-0 me-5 ${cartDisabled ? ' bg-secondary' : 'hover1'}`}
             onClick={(e) => {
               e.stopPropagation();
               handleAddToCart();
             }}
           >
-            {cartDisabled ? "sin stock" : "Al Carrito "}
-            {!cartDisabled && <BsFillCartPlusFill />}
+            {cartDisabled ? "sin stock" : "Añadir "}
+            {!cartDisabled && <BsFillCartPlusFill className="mb-1"/>}
           </button>
+          <button  className="rounded-5 border-0 hover1 "
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToFavorites();
+            }}
+          ><BsStarFill className="mb-1"/></button>
         </div>
       </div>
     </div>

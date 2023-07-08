@@ -22,9 +22,9 @@ export const Home = () => {
     }, []);
 
     const slides = [
-        {url:"/img/celuH1.jpg", title: "Artech • Tecnología al Alcance"},
-        {url:"/img/celuH2.jpg", title: "Celulares en Artech", href:"/category/Celulares"},
-        {url:"/img/tvH1.jpg", title: "Televisores en Artech", href:"/category/Televisores"},
+        {url: "/img/celuH1.jpg", smUrl: "/img/celuH1_sm.jpg", title: "Artech • Tecnología al Alcance"},
+        {url:"/img/celuH2.jpg", smUrl: "/img/celuH2_sm.jpg", title: "Celulares en Artech", href:"/category/Celulares"},
+        {url:"/img/tvH1.jpg", smUrl: "/img/tvH1_sm.jpg", title: "Televisores en Artech", href:"/category/Televisores"},
     ]
 
     return (

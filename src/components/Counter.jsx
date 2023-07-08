@@ -1,10 +1,9 @@
 import { useState} from "react";
-import Button from "./Button";
 import Select from "react-select";
 import { useCartContext } from "../context/cartContext";
 import { useFavoritesContext } from "../context/favoritesContext";
 import { BsFillCartPlusFill } from "react-icons/bs";
-import { BsStarFill } from "react-icons/bs";
+import { BsStarFill  } from "react-icons/bs";
 
 
 const Counter = ({ nombre, stock, onAdd, favoritesAdd }) => {
@@ -37,7 +36,7 @@ const Counter = ({ nombre, stock, onAdd, favoritesAdd }) => {
     setColor(color.value)
   }
 
-  // Chequeamos si la cantidad y el color ya fueron seleccionados y si hay stock en firebase antes de poder agregar a favoritos
+  // Chequeamos si la cantidad y el color ya fueron seleccionados y si hay stock en firebase antes de poder agregar 
   const counterFavoriteCheck = () => {
     const itemsSameName = favorites.filter(item => item.nombre === nombre)
     const qtyItemsSameName = itemsSameName.map(item => item.qty)
@@ -51,7 +50,7 @@ const Counter = ({ nombre, stock, onAdd, favoritesAdd }) => {
       if (!color) setError("Debes elegir un color");
       if (!contador && !color) setError("Debes elegir una cantidad y un color");
       if (totalQty + contador > stock) {
-        setError("No quedan productos en stock para agregar a favoritos");
+        setError("No quedan productos en stock para agregar ");
       }
     }
   }
@@ -86,18 +85,19 @@ const Counter = ({ nombre, stock, onAdd, favoritesAdd }) => {
         onChange={selectedValue}
       />
       <div className="mx-auto my-3 d-flex w-50 justify-content-center">
-        <Button onClick={() => handleSubstract()}>-</Button>
+        <button className="rounded-5 border-0 px-2" onClick={() => handleSubstract()}>-</button>
         <span className="text-white mx-5">{contador}</span>
-        <Button onClick={() => handleAdd()}>+</Button>
+        <button className="rounded-5 border-0 px-2" onClick={() => handleAdd()}>+</button>
       </div>
       <div className="my-3 d-flex justify-content-center">
-        <Button  onClick={counterFavoriteCheck}
+      <button className="rounded-5 border-0 px-3 me-5" onClick={counterCartCheck}>
+          Añadir <BsFillCartPlusFill />
+        </button>
+        <button className="rounded-5 border-0 px-2 " onClick={counterFavoriteCheck}
         > 
-          A Favoritos <BsStarFill />
-        </Button>
-        <Button onClick={counterCartCheck}>
-          Al carrito <BsFillCartPlusFill />
-        </Button>
+          <BsStarFill  className="mb-1" />
+        </button>
+        
       </div>
     </div>
   );

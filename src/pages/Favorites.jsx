@@ -1,5 +1,6 @@
 
-import { BsStarFill } from "react-icons/bs";
+import { BsStarFill  } from "react-icons/bs";
+import { BsTrash3Fill } from "react-icons/bs";
 import { useFavoritesContext } from "../context/favoritesContext";
 import FavCounter from "../components/FavCounter";
 
@@ -9,8 +10,8 @@ export const Favorites = () => {
   const { favorites, removeOfFavorites, emptyFavorites } = useFavoritesContext();
 
   if (favorites.length <= 0) return (
-    <div className="text-center mb-5">
-      <h3 className="my-5"><BsStarFill/></h3>
+    <div className="minH text-center mb-5">
+      <h3 className="my-5"><BsStarFill /></h3>
       <div><b> No tienes productos en favoritos</b></div>
     </div>
   );
@@ -28,28 +29,28 @@ export const Favorites = () => {
             <div className="px-1">Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
             <div className="px-1">Color:<br /> <b><b>{product.color}</b></b></div>
             <FavCounter product={product}/>
-            <button className="rounded-5 px-2 button2"
-            onClick={(e) => {
-              e.stopPropagation();
-              removeOfFavorites(product.id, product.color);
-            }}
-            >Eliminar</button>
-          </div>
-          <div className="d-flex d-md-none flex-column justify-content-evenly py-3 rounded bg-yellow mb-2 text-center">
-            <div className="d-flex justify-content-center">
-              <div className="h100 pe-5"><img className="img-fluid h-100" src={product.img} alt="" /></div>
-              <div className="pt-3"><b><b>{product.nombre}</b></b></div>
-            </div>
-            <div className="d-flex justify-content-evenly pt-3 text-center">
-              <div>Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
-              <div>Color:<br /> <b><b>{product.color}</b></b></div>
-              <FavCounter product={product}/>
-              <button className="rounded-5 px-2 button2"
+            <button className="rounded-5 button3 my-auto"
               onClick={(e) => {
                 e.stopPropagation();
                 removeOfFavorites(product.id, product.color);
               }}
-              >Eliminar</button>
+              ><BsTrash3Fill className="size20 m-2"/></button>
+          </div>
+          <div className="d-flex d-md-none flex-column justify-content-evenly py-3 rounded bg-yellow mb-2 text-center">
+            <div className="d-flex justify-content-evenly">
+              <div className="h100"><img className="img-fluid h-100" src={product.img} alt="" /></div>
+              <div className="pt-3"><b><b>{product.nombre}</b></b></div>
+            </div>
+            <div className="d-flex justify-content-evenly text-center">
+              <div className="my-auto">Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
+              <div className="my-auto">Color:<br /> <b><b>{product.color}</b></b></div>
+              <FavCounter product={product}/>
+              <button className="rounded-5 button3 my-auto"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeOfFavorites(product.id, product.color);
+              }}
+              ><BsTrash3Fill className="size20 mx-1 my-2"/></button>
             </div>
           </div>
         </div>

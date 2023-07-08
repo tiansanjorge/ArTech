@@ -109,12 +109,12 @@ body {
 
 .sliderRightArrow{
     transform: translate(0, -50%);
-    right: 32px;
+    right: 10px;
     z-index: 1;
 }
 .sliderLeftArrow{
     transform: translate(0, -50%);
-    left: 32px;
+    left: 10px;
     z-index: 1;
 }
 
@@ -162,6 +162,36 @@ button{
     &:active{
         color:#000;
         background: #1684a3;
+        transition: .1s;
+    }
+}
+.button3{
+    color:#7f0202;
+    background: #fff;
+    border:none;
+    &:hover{
+        color:#fff;
+    background: #7f0202;
+        transition: .2s;
+    }
+    &:active{
+        color:#fff;
+        background: #000000;
+        transition: .1s;
+    }
+}
+.button4{
+    color:#1684a3;
+    background:#fff;
+    border:none;
+    &:hover{
+        color:#fff;
+        background: #1684a3;
+        transition: .2s;
+    }
+    &:active{
+        color:#fff;
+        background: #000;
         transition: .1s;
     }
 }
@@ -236,7 +266,7 @@ button{
 }
 
 .minH{
-    min-height: 100vh;
+    min-height: 90vh;
 }
 .h100{
     height:100px;
@@ -273,6 +303,9 @@ button{
 }
 .size20{
     font-size: 20px
+}
+.size35{
+    font-size: 35px
 }
 .size45{
     font-size: 45px

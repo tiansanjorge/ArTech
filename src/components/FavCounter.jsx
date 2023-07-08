@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Button from "./Button";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { useFavoritesContext } from "../context/favoritesContext";
 import { useCartContext } from "../context/cartContext";
@@ -48,17 +47,17 @@ const FavCounter = ({ product }) => {
             <div className="text-danger mb-2">
                 {Error}
             </div>
-            <div  className="d-flex">
+            <div className="d-flex flex-column flex-md-row">
                 <div className="d-flex" >
-                    <button className="button2 rounded-5 px-2 mx-2" onClick={() => handleSubstract()}>-</button>
-                    <span className="mx-2">{contador}</span>
-                    <button className="button2 rounded-5 px-2 mx-2" onClick={() => handleAdd()}>+</button>
+                    <button className="button2 rounded-5 px-2 m-2" onClick={() => handleSubstract()}>-</button>
+                    <span className="mx-2 my-auto">{contador}</span>
+                    <button className="button2 rounded-5 px-2 m-2" onClick={() => handleAdd()}>+</button>
                 </div>
                 <div>
-                    <button className=" button2 rounded-5 ms-4 me-2 px-2"
+                    <button className="button4 rounded-5 ms-md-3 me-md-2 ms-xl-5"
                     onClick={() =>{counterCartCheck()}}
                         
-                    ><BsFillCartPlusFill /></button>
+                    ><BsFillCartPlusFill className="m-2 size20" /></button>
                 </div>
                 
                 

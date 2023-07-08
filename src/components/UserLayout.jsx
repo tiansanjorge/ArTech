@@ -5,7 +5,7 @@ import { SideBanner } from "./SideBanner";
 import { useMediaQuery } from '@mui/material';
 
 export const UserLayout = () => {
-  const isLargeViewport = useMediaQuery('(max-width: 992px)'); // Verifica si el viewport es mayor o igual a 960px
+  const isLargeViewport = useMediaQuery('(max-width: 991.5px)'); 
 
   return (
     <div className="minH d-flex flex-column justify-content-between">

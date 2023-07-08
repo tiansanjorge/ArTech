@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { BsFillCartFill, BsStarFill, BsFillCaretDownFill, BsList } from "react-icons/bs";
+import { BsFillCartFill, BsStarFill , BsFillCaretDownFill, BsList } from "react-icons/bs";
 import { Link, NavLink } from "react-router-dom";
 import { useCartContext } from "../context/cartContext";
 import { useFavoritesContext } from "../context/favoritesContext";
@@ -26,18 +26,18 @@ export const NavBar = () => {
   };
 
   return (
-    <header className="w-100 py-4 px-5 col-12 d-flex justify-content-between align-items-center bg-blue">
+    <header className="w-100 py-4 px-3 px-md-5 col-12 d-flex justify-content-between align-items-center bg-blue">
       <Link className="text-decoration-none" to="/">
-        <h2 className="text-dark"><b>Ar<span className="text-white">Tech</span> </b></h2>
+        <h2 className="text-dark size35"><b>Ar<span className="text-white">Tech</span> </b></h2>
       </Link>
-      <div className="d-block d-md-none mxf-auto">
+      <div className="d-block d-md-none mx-auto">
         <Dropdown isOpen={menuOpen} toggle={toggleMenu}>
           <DropdownToggle className="hover1 border-0">
             <span className="d-none d-sm-block"><BsList size={28}/></span>
             <span className="d-block d-sm-none"><BsList size={28}/></span>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem header>Categorías</DropdownItem>
+            <DropdownItem header className="size16">Categorías</DropdownItem>
             {links.map((elemento) => {
               return (
                 <DropdownItem className="hover2 border-0" key={elemento}>
@@ -46,7 +46,7 @@ export const NavBar = () => {
                       color: isActive ? "#1684a3" : "#000",
                       textDecoration: "none",
                       fontWeight: isActive ? "700" : "500",
-                      fontSize: isActive ? 14 : 12,
+                      fontSize: isActive ? 18 : 15,
                     })}
                     to={`/category/${elemento}`}
                   >
@@ -65,7 +65,7 @@ export const NavBar = () => {
                   color: isActive ? "#1684a3" : "#000",
                   textDecoration: "none",
                   fontWeight: isActive ? "700" : "500",
-                  fontSize: isActive ? 14 : 12,
+                  fontSize: isActive ? 18 : 15,
                 })}
                 to="/account">
                   <div>
@@ -78,7 +78,7 @@ export const NavBar = () => {
                   color: isActive ? "#1684a3" : "#000",
                   textDecoration: "none",
                   fontWeight: isActive ? "700" : "500",
-                  fontSize: isActive ? 14 : 12,
+                  fontSize: isActive ? 18 : 15,
                 })} to="/signin">
                   <div>
                     Iniciar Sesión
@@ -92,7 +92,7 @@ export const NavBar = () => {
                 color: isActive ? "#1684a3" : "#000",
                 textDecoration: "none",
                 fontWeight: isActive ? "700" : "500",
-                fontSize: isActive ? 14 : 12,
+                fontSize: isActive ? 18 : 15,
               })}
               to="/orders">
                 <div>
@@ -139,17 +139,17 @@ export const NavBar = () => {
           </Link>
         </div>
       </div>
-      <div className="col-3 d-flex justify-content-around py-3 rounded bg-yellow insetShadow">
+      <div className="col-4 col-md-3 d-flex justify-content-around py-3 px-2 rounded bg-yellow insetShadow">
         <Link className="hover5 text-decoration-none text-center" to="/favorites">
-          <span className="d-none d-lg-block">Favoritos <BsStarFill/></span>
-          <span className="d-none d-md-block d-lg-none ">Favoritos <br /><BsStarFill/></span>
-          <span className="d-block d-md-none "><BsStarFill/></span>
+          <span className="d-none d-lg-block">Favoritos <BsStarFill className=" mb-1"/></span>
+          <span className="d-none d-md-block d-lg-none ">Favoritos <br /><BsStarFill /></span>
+          <span className="d-block d-md-none "><BsStarFill className="size20"/></span>
           <span className="d-flex justify-content-around">{getFavoritesQty()}</span>
         </Link>
         <Link className="hover5 text-decoration-none text-center" to="/cart">
-          <span className="d-none d-lg-block">Carrito <BsFillCartFill/></span>
+          <span className="d-none d-lg-block">Carrito <BsFillCartFill className=" mb-1"/></span>
           <span className="d-none d-md-block d-lg-none ">Carrito <br /><BsFillCartFill/></span>
-          <span className="d-block d-md-none "><BsFillCartFill/></span>
+          <span className="d-block d-md-none "><BsFillCartFill className="size20"/></span>
           <span className="d-flex justify-content-around">{getCartQty()}</span>
         </Link>
       </div>

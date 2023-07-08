@@ -5,6 +5,7 @@ import { updateManyProducts } from "../api/products";
 import { useCartContext } from "../context/cartContext";
 import { useAuthContext } from '../context/authContext';
 import { Link } from "react-router-dom";
+import { BsTrash3Fill } from "react-icons/bs";
 import Swal from 'sweetalert2'
 
 export const Cart = () => {
@@ -114,7 +115,7 @@ export const Cart = () => {
   // Si el carrito está vació se muestra este mensaje
   if (cart.length <= 0) 
   return (
-    <div className="text-center mb-5">
+    <div className="minH text-center mb-5">
       <h3 className="my-5"><BsFillCartFill /></h3>
       <div><b>Su carrito esta vacío</b></div>
     </div>
@@ -209,28 +210,28 @@ export const Cart = () => {
             <div className="px-1">Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
             <div className="px-1">Cantidad: <br /><b><b>{product.qty}</b></b></div>
             <div className="ps-1 pe-2">Color: <br /><b><b>{product.color}</b></b></div>
-            <button className="px-2 rounded-5 button2"
-            onClick={(e) => {
-              e.stopPropagation();
-              removeProduct(product.id, product.color)
-            }}
-            >Eliminar</button>
-          </div>
-          <div className="d-flex d-md-none flex-column justify-content-evenly py-3 rounded bg-yellow mb-2 text-center mx-3">
-            <div className="d-flex justify-content-center">
-              <div className="h100 pe-5"><img className=" img-fluid h-100" src={product.img} alt="" /></div>
-              <div className="pt-3" ><b><b>{product.nombre}</b></b></div>
-            </div> 
-            <div className="d-flex justify-content-evenly pt-3 text-center">
-              <div>Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
-              <div>Cantidad: <br /><b><b>{product.qty}</b></b></div>
-              <div>Color: <br /><b><b>{product.color}</b></b></div>
-              <button className="px-2 rounded-5 button2"
+            <button className="rounded-5 button3 my-auto"
               onClick={(e) => {
                 e.stopPropagation();
                 removeProduct(product.id, product.color)
               }}
-              >Eliminar</button>
+              ><BsTrash3Fill className="size20 mx-2 my-2"/></button>
+          </div>
+          <div className="d-flex d-md-none flex-column justify-content-evenly py-3 px-2 rounded bg-yellow mb-2 text-center mx-3">
+            <div className="d-flex justify-content-evenly">
+              <div className="h100 px-2"><img className=" img-fluid h-100" src={product.img} alt="" /></div>
+              <div className="pt-3 " ><b><b>{product.nombre}</b></b></div>
+            </div> 
+            <div className="d-flex justify-content-evenly pt-3 text-center">
+              <div className="my-auto">Valor<br /> unidad:<br /> <b><b>${product.valor}</b></b></div>
+              <div className="my-auto">Cantidad: <br /><b><b>{product.qty}</b></b></div>
+              <div className="my-auto">Color: <br /><b><b>{product.color}</b></b></div>
+              <button className="rounded-5 button3 my-auto"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeProduct(product.id, product.color)
+              }}
+              ><BsTrash3Fill className="size20 mx-1 my-2"/></button>
             </div>
           </div>
         </div>
@@ -259,7 +260,7 @@ export const Cart = () => {
           </div>
           <span>Nombre y apellido</span>
           <input
-            className="col-10 border rounded border-dark my-2 py-2"
+            className="col-12 col-sm-10 border rounded border-dark my-2 py-2"
             onChange={(e) => {setName(e.target.value); storeInputName(e.target.value);}}
             onBlur={(e) => {setName(e.target.value); storeInputName(e.target.value);}}
             defaultValue={inputName}
@@ -268,20 +269,20 @@ export const Cart = () => {
             {phoneError}
           </div>
           <span>Teléfono</span>
-          <input className=" col-10 border rounded border-dark my-2 py-2"
+          <input className="col-12 col-sm-10 border rounded border-dark my-2 py-2"
           onChange={(e) => {validatePhone(e.target.value); storeInputPhone(e.target.value)}}
           onBlur={(e) => {validatePhone(e.target.value); storeInputPhone(e.target.value)}}
           defaultValue={inputPhone}/>
           <div className="mt-2 text-yellow">
           {submitMessage}
           </div>
-          <input className="mt-2 col-8 rounded button border border-dark shadow-sm" type="submit" value="Realizar Pedido" disabled={submitDisabled} onClick={createOrder} /> 
+          <input className="mt-2 col-10 col-sm-8 rounded button border border-dark shadow-sm" type="submit" value="Realizar Pedido" disabled={submitDisabled} onClick={createOrder} /> 
         </form>
 
         
       </div>)
       :
-      (<div className="text-center col-12 mt-5"><div className="py-5">Debes iniciar sesión con una cuenta para realizar un pedido</div> 
+      (<div className="text-center col-12 my-5"><div className="py-5">Debes iniciar sesión con una cuenta para realizar un pedido</div> 
         <Link className="p-3 text-decoration-none border border-dark rounded hover1" to='/signin'><b> Iniciar Sesión </b></Link>
       </div>)
       }
