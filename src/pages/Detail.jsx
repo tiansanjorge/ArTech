@@ -9,6 +9,8 @@ import BannerDiscount from "../components/BannerDiscount";
 
 export const Detail = () => {
   const [loading, setLoading] = useState(true);
+  const [showCartAnimation, setShowCartAnimation] = useState(false);
+  const [showFavAnimation, setShowFavAnimation] = useState(false);
   
   // el param "productId" es sacado de la ruta (app.js) y fue brindado por el componente "Item.jsx"
   const  { productId }  = useParams();
@@ -25,10 +27,20 @@ export const Detail = () => {
 
   const handleAdd = (qty, color) => {
     addProduct(product, qty, color);
+    setShowCartAnimation(true);
   };
 
   const favoritesAdd = (qty, color) => {
     addToFavorites(product, qty, color);
+    setShowFavAnimation(true);
+  };
+
+  const handleCartAnimationEnd = () => {
+    setShowCartAnimation(false);
+  };
+
+  const handleFavAnimationEnd = () => {
+    setShowFavAnimation(false);
   };
 
   return (
@@ -53,6 +65,10 @@ export const Detail = () => {
               stock={product?.stock}
               onAdd={handleAdd}
               favoritesAdd={favoritesAdd}
+              cartAnimation= {showCartAnimation}
+              favAnimation= {showFavAnimation}
+              handleCartAnimationEnd= {handleCartAnimationEnd}
+              handleFavAnimationEnd= {handleFavAnimationEnd}
               />
             </div>
           </div>

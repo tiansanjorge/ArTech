@@ -72,7 +72,7 @@ body {
 
     &__category {
         font-size: 14px;
-        
+
     }
 
     &__stock {
@@ -92,7 +92,7 @@ body {
     }
 
     &:hover {
-        border:1px solid #1684a3;
+        border: 1px solid #1684a3;
         transition: .5s;
 
         .card {
@@ -103,101 +103,117 @@ body {
     }
 }
 
-.slider{
-    height:200px;
+.slider {
+    height: 200px;
 }
 
-.sliderRightArrow{
+.sliderRightArrow {
     transform: translate(0, -50%);
     right: 10px;
     z-index: 1;
 }
-.sliderLeftArrow{
+
+.sliderLeftArrow {
     transform: translate(0, -50%);
     left: 10px;
     z-index: 1;
 }
 
-button{
-    color:#fff;
+button {
+    color: #fff;
     background: #000;
-    &:hover{
+
+    &:hover {
         background: #8f8f8f;
         transition: .2s;
     }
-    &:active{
-        color:#000;
+
+    &:active {
+        color: #000;
         background: #ffd66b;
         transition: .1s;
     }
 }
-.button{
-    color:#fff;
+
+.button {
+    color: #fff;
     background: #000;
-    border:none;
-    &:hover{
-        color:#000;
+    border: none;
+
+    &:hover {
+        color: #000;
         background: #ffd66b;
         transition: .2s;
     }
-    &:active{
-        color:#fff;
+
+    &:active {
+        color: #fff;
         background: #ffd66b;
         transition: .1s;
     }
-    &:disabled{
-        color:#fff;
+
+    &:disabled {
+        color: #fff;
         background: #8d8d8d;
     }
 }
-.button2{
-    color:#fff;
+
+.button2 {
+    color: #fff;
     background: #000;
-    border:none;
-    &:hover{
-        color:#fff;
+    border: none;
+
+    &:hover {
+        color: #fff;
         background: #1684a3;
         transition: .2s;
     }
-    &:active{
-        color:#000;
+
+    &:active {
+        color: #000;
         background: #1684a3;
         transition: .1s;
     }
 }
-.button3{
-    color:#7f0202;
+
+.button3 {
+    color: #7f0202;
     background: #fff;
-    border:none;
-    &:hover{
-        color:#fff;
-    background: #7f0202;
+    border: none;
+
+    &:hover {
+        color: #fff;
+        background: #7f0202;
         transition: .2s;
     }
-    &:active{
-        color:#fff;
+
+    &:active {
+        color: #fff;
         background: #000000;
         transition: .1s;
     }
 }
-.button4{
-    color:#1684a3;
-    background:#fff;
-    border:none;
-    &:hover{
-        color:#fff;
+
+.button4 {
+    color: #1684a3;
+    background: #fff;
+    border: none;
+
+    &:hover {
+        color: #fff;
         background: #1684a3;
         transition: .2s;
     }
-    &:active{
-        color:#fff;
+
+    &:active {
+        color: #fff;
         background: #000;
         transition: .1s;
     }
 }
 
-.pointer{
-    cursor:pointer
+.pointer {
+    cursor: pointer
 }
 
 .insetShadow {
@@ -205,121 +221,178 @@ button{
 }
 
 
-.hover1{
-    color:#fff;
+.hover1 {
+    color: #fff;
     background: #000;
-    &:hover{
-        color:#000;
+
+    &:hover {
+        color: #000;
         background: #ffd66b;
         transition: .2s;
     }
-    &:active{
-        color:#fff;
+
+    &:active {
+        color: #fff;
         background: #ffd66b;
         transition: .1s;
     }
 }
-.hover2{
+
+.hover2 {
     background: #fff;
-    &:hover{
+
+    &:hover {
         background: #ffd66b;
         transition: .2s;
     }
 }
-.hover3{
-    color:#fff;
-    &:hover{
-        color:#004559;
+
+.hover3 {
+    color: #fff;
+
+    &:hover {
+        color: #004559;
         transition: .2s;
     }
-    &:active{
-        color:#000;
+
+    &:active {
+        color: #000;
         transition: .1s;
     }
 }
-.hover4{
+
+.hover4 {
     background: #000;
-    &:hover{
-        color:#fff;
+
+    &:hover {
+        color: #fff;
         background: #1684a3;
         transition: .2s;
     }
-    &:active{
-        color:#000;
+
+    &:active {
+        color: #000;
         background: #ffd66b;
         transition: .1s;
     }
 }
-.hover5{
-    color:#000;
-    &:hover{
+
+.hover5 {
+    color: #000;
+
+    &:hover {
         color: #004559;
         transition: .2s;
     }
 }
-.hover6{
-    color:#000;
-    &:hover{
+
+.hover6 {
+    color: #000;
+
+    &:hover {
         color: #1684a3;
         transition: .2s;
     }
 }
 
-.minH{
+.minH {
     min-height: 90vh;
 }
-.h100{
-    height:100px;
+
+.h100 {
+    height: 100px;
 }
 
 
-.w20{
+.w20 {
     width: 20%;
 }
 
-.bg-blue{
+.bg-blue {
     background-color: #1684a3;
 }
-.bg-lightblue{
+
+.bg-lightblue {
     background-color: #1684a380;
 }
-.bg-yellow{
+
+.bg-yellow {
     background: #ffd66b
 }
-.bg-black{
+
+.bg-black {
     background-color: #000;
 }
 
-.text-blue{
+.text-blue {
     color: #1684a3;
 }
-.text-yellow{
+
+.text-yellow {
     color: #ffd66b
 }
 
 
-.size16{
+.size16 {
     font-size: 16px
 }
-.size20{
+
+.size20 {
     font-size: 20px
 }
-.size35{
+
+.size35 {
     font-size: 35px
 }
-.size45{
+
+.size45 {
     font-size: 45px
 }
 
+:root {
+    --toastify-color-success: #009b22;
+    --toastify-text-color-success: #009b22;
+}
+
+.addAnimation {
+    display:block;
+    height: 0px;
+    color:#fff;
+    position: relative;
+    opacity:0;
+    animation: addAnimation 0.5s ease-out;
+}
+
+.addAnimation2 {
+    display:block;
+    height: 0px;
+    color:#fff;
+    position: relative;
+    opacity:0;
+    animation: addAnimation 0.5s ease-out;
+}
+
+@keyframes addAnimation {
+    0% {
+        bottom: 45px;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 80px;
+        opacity: 0;
+    }
+}
+
 @media screen and (min-width: 768px) {
-    .slider{
-        height:250px
+    .slider {
+        height: 250px
     }
 }
 
 @media screen and (min-width: 992px) {
-    .slider{
-        height:300px;
-        max-height:300px
+    .slider {
+        height: 300px;
+        max-height: 300px
     }
 }

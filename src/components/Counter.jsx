@@ -6,13 +6,15 @@ import { BsFillCartPlusFill } from "react-icons/bs";
 import { BsStarFill  } from "react-icons/bs";
 
 
-const Counter = ({ nombre, stock, onAdd, favoritesAdd }) => {
+const Counter = ({ nombre, stock, onAdd, favoritesAdd, cartAnimation,
+  favAnimation, handleCartAnimationEnd, handleFavAnimationEnd }) => {
 
   const { cart } = useCartContext();
   const { favorites } = useFavoritesContext();
 
   const [contador, setContador] = useState(0);
   const [Error, setError] = useState("");
+  
 
   const handleAdd = () => {
     if(contador < stock){
@@ -90,12 +92,22 @@ const Counter = ({ nombre, stock, onAdd, favoritesAdd }) => {
         <button className="rounded-5 border-0 px-2" onClick={() => handleAdd()}>+</button>
       </div>
       <div className="my-3 d-flex justify-content-center">
-      <button className="rounded-5 border-0 px-3 me-5" onClick={counterCartCheck}>
+      <button className="rounded-5 border-0 px-3 me-5 hover1" onClick={counterCartCheck}>
           Añadir <BsFillCartPlusFill />
+          {cartAnimation && (
+            <div className="addAnimation" onAnimationEnd={handleCartAnimationEnd}>
+              <BsFillCartPlusFill size={28}/>
+            </div>
+          )}
         </button>
-        <button className="rounded-5 border-0 px-2 " onClick={counterFavoriteCheck}
+        <button className="rounded-5 border-0 px-2 hover1" onClick={counterFavoriteCheck}
         > 
           <BsStarFill  className="mb-1" />
+          {favAnimation && (
+            <div className="addAnimation2" onAnimationEnd={handleFavAnimationEnd}>
+              <BsStarFill/>
+            </div>
+          )}
         </button>
         
       </div>

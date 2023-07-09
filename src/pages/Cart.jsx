@@ -7,6 +7,7 @@ import { useAuthContext } from '../context/authContext';
 import { Link } from "react-router-dom";
 import { BsTrash3Fill } from "react-icons/bs";
 import Swal from 'sweetalert2'
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 
 export const Cart = () => {
 
@@ -36,6 +37,20 @@ export const Cart = () => {
   let day = dateObj.getUTCDate();
   let year = dateObj.getUTCFullYear();
   let newdate = day + "/" + month + "/" + year;
+
+  // Alerta para notificar cuando se elimina un producto del Carrito
+  const toastDelete = () => toast.error('Producto eliminado del Carrito', {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    icon: <BsTrash3Fill />
+  });
+
 
   // Establezco en el state email el correo de la cuenta que inicio sesión
   useEffect(() => {
@@ -111,15 +126,6 @@ export const Cart = () => {
       setPhoneError("Teléfono inválido");
     }
   }
-
-  // Si el carrito está vació se muestra este mensaje
-  if (cart.length <= 0) 
-  return (
-    <div className="minH text-center mb-5">
-      <h3 className="my-5"><BsFillCartFill /></h3>
-      <div><b>Su carrito esta vacío</b></div>
-    </div>
-  );
 
 
   // Verifico la variable discount importada del cartContext y muestro el aviso de si se aplica o no
@@ -201,92 +207,102 @@ export const Cart = () => {
 
     <div className="minH col-lg-8 col-11 mx-auto">
       <h3 className="text-center my-5 py-2 bg-lightblue rounded shadow-sm">Carrito </h3>
-
-      {cart.map((product) => (
-        <div key={product.id + product.color} >
-          <div className="d-none d-md-flex text-center justify-content-evenly align-items-center py-3 rounded bg-yellow mb-2 mx-3 shadow">
-            <div className="h100"><img className=" img-fluid h-100" src={product.img} alt="" /></div>
-            <div className="w20"><b><b>{product.nombre}</b></b></div>
-            <div className="px-1">Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
-            <div className="px-1">Cantidad: <br /><b><b>{product.qty}</b></b></div>
-            <div className="ps-1 pe-2">Color: <br /><b><b>{product.color}</b></b></div>
-            <button className="rounded-5 button3 my-auto"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeProduct(product.id, product.color)
-              }}
-              ><BsTrash3Fill className="size20 mx-2 my-2"/></button>
-          </div>
-          <div className="d-flex d-md-none flex-column justify-content-evenly py-3 px-2 rounded bg-yellow mb-2 text-center mx-3">
-            <div className="d-flex justify-content-evenly">
-              <div className="h100 px-2"><img className=" img-fluid h-100" src={product.img} alt="" /></div>
-              <div className="pt-3 " ><b><b>{product.nombre}</b></b></div>
-            </div> 
-            <div className="d-flex justify-content-evenly pt-3 text-center">
-              <div className="my-auto">Valor<br /> unidad:<br /> <b><b>${product.valor}</b></b></div>
-              <div className="my-auto">Cantidad: <br /><b><b>{product.qty}</b></b></div>
-              <div className="my-auto">Color: <br /><b><b>{product.color}</b></b></div>
+      {cart.length <= 0 ? 
+      // Si el carrito está vació se muestra este mensaje
+      <div className="minH text-center mb-5">
+        <h3 className="my-5"><BsFillCartFill /></h3>
+        <div><b>Su carrito esta vacío</b></div>
+      </div> 
+      : 
+      // si no, arma la pagina con los productos del carrito
+      <div>
+        {cart.map((product) => (
+          <div key={product.id + product.color} >
+            <div className="d-none d-md-flex text-center justify-content-evenly align-items-center py-3 rounded bg-yellow mb-2 mx-3 shadow">
+              <div className="h100"><img className=" img-fluid h-100" src={product.img} alt="" /></div>
+              <div className="w20"><b><b>{product.nombre}</b></b></div>
+              <div className="px-1">Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
+              <div className="px-1">Cantidad: <br /><b><b>{product.qty}</b></b></div>
+              <div className="ps-1 pe-2">Color: <br /><b><b>{product.color}</b></b></div>
               <button className="rounded-5 button3 my-auto"
-              onClick={(e) => {
-                e.stopPropagation();
-                removeProduct(product.id, product.color)
-              }}
-              ><BsTrash3Fill className="size20 mx-1 my-2"/></button>
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeProduct(product.id, product.color);
+                  toastDelete()
+                }}
+                ><BsTrash3Fill className="size20 mx-2 my-2"/></button>
+            </div>
+            <div className="d-flex d-md-none flex-column justify-content-evenly py-3 px-2 rounded bg-yellow mb-2 text-center mx-3">
+              <div className="d-flex justify-content-evenly">
+                <div className="h100 px-2"><img className=" img-fluid h-100" src={product.img} alt="" /></div>
+                <div className="pt-3 " ><b><b>{product.nombre}</b></b></div>
+              </div> 
+              <div className="d-flex justify-content-evenly pt-3 text-center">
+                <div className="my-auto">Valor<br /> unidad:<br /> <b><b>${product.valor}</b></b></div>
+                <div className="my-auto">Cantidad: <br /><b><b>{product.qty}</b></b></div>
+                <div className="my-auto">Color: <br /><b><b>{product.color}</b></b></div>
+                <button className="rounded-5 button3 my-auto"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeProduct(product.id, product.color);
+                  toastDelete()
+                }}
+                ><BsTrash3Fill className="size20 mx-1 my-2"/></button>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-
-      <div className="mx-3 my-4">
-        <span className="size20 ">
+        ))}
+        <div className="mx-3 my-4">
+          <span className="size20 ">
           {discountSpan} <br />
           <span className="my-1 d-block"><b><b>Total: ${getTotal()}</b></b></span>
-        </span>
+          </span>
+        </div>
+
+        <div className="mx-auto mb-5 text-center">
+          <button className="mb-3 rounded-5 px-4 shadow-sm"
+            onClick={() => emptyCart()}
+            >Vaciar carrito</button>
+        </div>
+
+        {email ?
+        (<div className="col-11 mx-auto">
+          <h2 className="ms-1 mb-4 text-blue">Finaliza tu pedido</h2>
+          <div className="ms-1 mb-3 text-dark" >Estas realizando el pedido desde <b> {email} </b></div>
+          <form className="d-flex col-8 col-sm-7 col-md-6 col-xl-5 flex-column justify-content-around mb-5 mt-3 p-3 rounded text-white bg-blue shadow" >
+            <div className="mt-2 text-yellow">
+            {stockError}
+            </div>
+            <span>Nombre y apellido</span>
+            <input
+              className="col-12 col-sm-10 border rounded border-dark my-2 py-2"
+              onChange={(e) => {setName(e.target.value); storeInputName(e.target.value);}}
+              onBlur={(e) => {setName(e.target.value); storeInputName(e.target.value);}}
+              defaultValue={inputName}
+            />
+            <div className="mt-2 text-yellow">
+              {phoneError}
+            </div>
+            <span>Teléfono</span>
+            <input className="col-12 col-sm-10 border rounded border-dark my-2 py-2"
+            onChange={(e) => {validatePhone(e.target.value); storeInputPhone(e.target.value)}}
+            onBlur={(e) => {validatePhone(e.target.value); storeInputPhone(e.target.value)}}
+            defaultValue={inputPhone}/>
+            <div className="mt-2 text-yellow">
+            {submitMessage}
+            </div>
+            <input className="mt-2 col-10 col-sm-8 rounded button border border-dark shadow-sm" type="submit" value="Realizar Pedido" disabled={submitDisabled} onClick={createOrder} /> 
+          </form>
+          
+        </div>)
+        :
+        (<div className="text-center col-12 my-5"><div className="py-5">Debes iniciar sesión con una cuenta para realizar un pedido</div> 
+          <Link className="p-3 text-decoration-none border border-dark rounded hover1" to='/signin'><b> Iniciar Sesión </b></Link>
+        </div>)
+        }
       </div>
-
-      <div className="mx-auto mb-5 text-center">
-        <button className="mb-3 rounded-5 px-4 shadow-sm"
-          onClick={() => emptyCart()}
-          >Vaciar carrito</button>
-      </div>
-
-      {email ?
-      (<div className="col-11 mx-auto">
-        <h2 className="ms-1 mb-4 text-blue">Finaliza tu pedido</h2>
-        <div className="ms-1 mb-3 text-dark" >Estas realizando el pedido desde <b> {email} </b></div>
-        <form className="d-flex col-8 col-sm-7 col-md-6 col-xl-5 flex-column justify-content-around mb-5 mt-3 p-3 rounded text-white bg-blue shadow" >
-          <div className="mt-2 text-yellow">
-          {stockError}
-          </div>
-          <span>Nombre y apellido</span>
-          <input
-            className="col-12 col-sm-10 border rounded border-dark my-2 py-2"
-            onChange={(e) => {setName(e.target.value); storeInputName(e.target.value);}}
-            onBlur={(e) => {setName(e.target.value); storeInputName(e.target.value);}}
-            defaultValue={inputName}
-          />
-          <div className="mt-2 text-yellow">
-            {phoneError}
-          </div>
-          <span>Teléfono</span>
-          <input className="col-12 col-sm-10 border rounded border-dark my-2 py-2"
-          onChange={(e) => {validatePhone(e.target.value); storeInputPhone(e.target.value)}}
-          onBlur={(e) => {validatePhone(e.target.value); storeInputPhone(e.target.value)}}
-          defaultValue={inputPhone}/>
-          <div className="mt-2 text-yellow">
-          {submitMessage}
-          </div>
-          <input className="mt-2 col-10 col-sm-8 rounded button border border-dark shadow-sm" type="submit" value="Realizar Pedido" disabled={submitDisabled} onClick={createOrder} /> 
-        </form>
-
-        
-      </div>)
-      :
-      (<div className="text-center col-12 my-5"><div className="py-5">Debes iniciar sesión con una cuenta para realizar un pedido</div> 
-        <Link className="p-3 text-decoration-none border border-dark rounded hover1" to='/signin'><b> Iniciar Sesión </b></Link>
-      </div>)
       }
-
+      <ToastContainer transition={Bounce} />
     </div>
 
   );
