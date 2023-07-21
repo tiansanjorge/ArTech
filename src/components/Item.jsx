@@ -5,7 +5,7 @@ import { useCartContext } from "../context/cartContext";
 import { useFavoritesContext } from "../context/favoritesContext";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { BsStarFill  } from "react-icons/bs";
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
   const navigate = useNavigate();
@@ -69,17 +69,17 @@ const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
     theme: "light",
     });
 
-    const toastFav = () => toast.success('Producto agregado a Favoritos', {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      icon: <BsStarFill/>
-      });
+  const toastFav = () => toast.success('Producto agregado a Favoritos', {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    icon: <BsStarFill/>
+    });
 
   return (
     <div className="card shadow-lg justify-content-end" onClick={() =>navigate(`/product/${id}`)}>
@@ -118,9 +118,10 @@ const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
             </div>
             )}
           </button>
+          
         </div>
       </div>
-      <ToastContainer transition={Bounce}/>
+      {/* <ToastContainer transition={Bounce}/> */}
     </div>
   );
 };

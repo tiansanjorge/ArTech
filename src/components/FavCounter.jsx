@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { useFavoritesContext } from "../context/favoritesContext";
 import { useCartContext } from "../context/cartContext";
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const FavCounter = ({ product }) => {
@@ -73,7 +73,6 @@ const FavCounter = ({ product }) => {
                     ><BsFillCartPlusFill className="m-2 size20" /></button>
                 </div>
             </div>
-            <ToastContainer transition={Bounce}/>
         </div>
     );
 };

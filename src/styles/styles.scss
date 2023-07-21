@@ -351,7 +351,16 @@ button {
 
 :root {
     --toastify-color-success: #009b22;
-    --toastify-text-color-success: #009b22;
+}
+
+
+// .toast{
+//     width:2000px;
+//     background: #000;
+//     color:red;
+// }
+.Toastify__toast-container {
+    width: 250px;
 }
 
 .addAnimation {
@@ -388,11 +397,18 @@ button {
     .slider {
         height: 250px
     }
+    .Toastify__toast-container {
+        width: 300px;
+    }
 }
 
 @media screen and (min-width: 992px) {
     .slider {
         height: 300px;
         max-height: 300px
+    }
+    
+    .Toastify__toast-container {
+        width: 350px;
     }
 }

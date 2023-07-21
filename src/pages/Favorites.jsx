@@ -3,7 +3,7 @@ import { BsStarFill } from "react-icons/bs";
 import { BsTrash3Fill } from "react-icons/bs";
 import { useFavoritesContext } from "../context/favoritesContext";
 import FavCounter from "../components/FavCounter";
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export const Favorites = () => {
 
@@ -78,7 +78,6 @@ export const Favorites = () => {
           </div>
         </div>
       }
-      <ToastContainer transition={Bounce} />
     </div>
 
   );

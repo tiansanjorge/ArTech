@@ -1,5 +1,6 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { AuthProvider } from './context/authContext';
@@ -48,6 +49,7 @@ function App() {
           </CartProvider>
         </OrderProvider>
       </AuthProvider>
+      <ToastContainer transition={Bounce}/>
     </div>
     
   );

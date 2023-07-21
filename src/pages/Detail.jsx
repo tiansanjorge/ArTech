@@ -43,6 +43,9 @@ export const Detail = () => {
     setShowFavAnimation(false);
   };
 
+  
+  
+
   return (
 
     

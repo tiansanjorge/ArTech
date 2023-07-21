@@ -7,7 +7,7 @@ import { useAuthContext } from '../context/authContext';
 import { Link } from "react-router-dom";
 import { BsTrash3Fill } from "react-icons/bs";
 import Swal from 'sweetalert2'
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export const Cart = () => {
 
@@ -302,7 +302,6 @@ export const Cart = () => {
         }
       </div>
       }
-      <ToastContainer transition={Bounce} />
     </div>
 
   );

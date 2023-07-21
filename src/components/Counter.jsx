@@ -4,6 +4,7 @@ import { useCartContext } from "../context/cartContext";
 import { useFavoritesContext } from "../context/favoritesContext";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { BsStarFill  } from "react-icons/bs";
+import { toast } from 'react-toastify';
 
 
 const Counter = ({ nombre, stock, onAdd, favoritesAdd, cartAnimation,
@@ -38,6 +39,30 @@ const Counter = ({ nombre, stock, onAdd, favoritesAdd, cartAnimation,
     setColor(color.value)
   }
 
+  // Declaramos las funciones para los toasts de producto agregad y eliminado
+  const toastCart = () => toast.success('Producto agregado al Carrito', {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+
+  const toastFav = () => toast.success('Producto agregado a Favoritos', {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    icon: <BsStarFill/>
+    });
+
   // Chequeamos si la cantidad y el color ya fueron seleccionados y si hay stock en firebase antes de poder agregar 
   const counterFavoriteCheck = () => {
     const itemsSameName = favorites.filter(item => item.nombre === nombre)
@@ -47,6 +72,7 @@ const Counter = ({ nombre, stock, onAdd, favoritesAdd, cartAnimation,
     if (contador && color && totalQty + contador <= stock) {
       setError("");
       favoritesAdd(contador, color);
+      toastFav();
     } else {
       if (!contador) setError("Debes elegir una cantidad");
       if (!color) setError("Debes elegir un color");
@@ -66,6 +92,7 @@ const Counter = ({ nombre, stock, onAdd, favoritesAdd, cartAnimation,
     if (contador && color && totalQty + contador <= stock) {
       setError("");
       onAdd(contador, color);
+      toastCart();
     } 
     else {
       if (!contador) setError("Debes elegir una cantidad");
