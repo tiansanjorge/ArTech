@@ -78,4 +78,6 @@ Sebastian Sanjorge • Front-End developer
 	sanjorgesebastian@gmail.com
 • Perfil de Linkedin:
 	https://www.linkedin.com/in/sebasti%C3%A1n-sanjorge-60a943130/
+• GitHub:
+	github.com/tiansanjorge
 
