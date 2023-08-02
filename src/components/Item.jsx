@@ -16,6 +16,8 @@ const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
   const [showCartAnimation, setShowCartAnimation] = useState(false);
   const [showFavAnimation, setShowFavAnimation] = useState(false);
 
+  const formattedNumberOption = { useGrouping: true, minimumFractionDigits: 0 };
+
   const counterCartCheck = () => {
     const itemsSameName = cart.filter(item => item.nombre == nombre)
     const qtyItemsSameName = itemsSameName.map(item => item.qty)
@@ -86,7 +88,7 @@ const Item = ({ id, valor, img, nombre, categoria, tag, stock }) => {
       <div className="card__top m-auto">
         <img className="img-fluid rounded p-4" src={img} alt="Producto ArTech" />
       </div>
-      <span className="card__price rounded">${valor}</span>
+      <span className="card__price rounded">${valor.toLocaleString('es-ES', formattedNumberOption)}</span>
       <Tag titulo={tag} />
       <div className="d-flex flex-column bg-blue rounded-bottom">
         <span className="card__name text-center pt-2 size16"><b>{nombre}</b></span>

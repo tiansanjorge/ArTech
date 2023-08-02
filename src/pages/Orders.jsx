@@ -13,6 +13,8 @@ export const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loading2, setLoading2] = useState(true);
+
+    const formattedNumberOption = { useGrouping: true, minimumFractionDigits: 0 };
     
     useEffect(() => {
         if (user && user.email) {
@@ -69,14 +71,14 @@ export const Orders = () => {
                                         <br />
                                             {order.items.map((item) => (
                                                 <div key={item.id + item.color}>
-                                                    <b><b>{item.nombre} - {item.color}</b></b> x<b><b>{item.qty}</b></b><br /><br />Precio Unitario: <b><b>${item.valor}</b></b>
+                                                    <b><b>{item.nombre} - {item.color}</b></b> x<b><b>{item.qty}</b></b><br /><br />Precio Unitario: <b><b>${item.valor.toLocaleString('es-ES', formattedNumberOption)}</b></b>
                                                     <br />
                                                     <br />
                                                 </div>
                                             ))}
                                             
                                     </div>
-                                    <div><b><b>Valor total: </b></b><span className="text-success"><b><b>${order.total}</b></b></span></div>
+                                    <div><b><b>Valor total: </b></b><span className="text-success"><b><b>${order.total.toLocaleString('es-ES', formattedNumberOption)}</b></b></span></div>
                                     
                                 </div>
                             ))}

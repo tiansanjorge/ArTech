@@ -32,6 +32,8 @@ export const Cart = () => {
 
   const [orderState] = useState("generated");
 
+  const formattedNumberOption = { useGrouping: true, minimumFractionDigits: 0 };
+
   let dateObj = new Date();
   let month = dateObj.getUTCMonth() + 1; //months from 1-12
   let day = dateObj.getUTCDate();
@@ -171,7 +173,7 @@ export const Cart = () => {
     // Recorremos el array items e incluimos en un string el mensaje que nos aparecerá en nuestra alerta cuando realicemos la orden
     for (let i = 0; i < items.length; i++) {
       itemsAlert += "<b>Item:</b> " + items[i].nombre + "<br><b>Cantidad:</b> " + items[i].qty +
-      "<br><b>Color:</b> " + items[i].color +" <b>Valor Unidad:</b> $" + items[i].valor + "<br><br>" ;
+      "<br><b>Color:</b> " + items[i].color +" <b>Valor Unidad:</b> $" + items[i].valor.toLocaleString('es-ES', formattedNumberOption) + "<br><br>" ;
     }
 
     // creamos la orden como un objeto
@@ -180,7 +182,7 @@ export const Cart = () => {
       items,
       fecha: newdate,
       estado: { orderState },
-      total: getTotal(),
+      total: getTotal().toLocaleString('es-ES', formattedNumberOption),
     };
 
     // desestructuramos ciertas propiedades de la orden para llamarlas con mas facilidad
@@ -221,7 +223,7 @@ export const Cart = () => {
             <div className="d-none d-md-flex text-center justify-content-evenly align-items-center py-3 rounded bg-yellow mb-2 mx-3 shadow">
               <div className="h100"><img className=" img-fluid h-100" src={product.img} alt="" /></div>
               <div className="w20"><b><b>{product.nombre}</b></b></div>
-              <div className="px-1">Valor unidad:<br /> <b><b>${product.valor}</b></b></div>
+              <div className="px-1">Valor unidad:<br /> <b><b>${product.valor.toLocaleString('es-ES', formattedNumberOption)}</b></b></div>
               <div className="px-1">Cantidad: <br /><b><b>{product.qty}</b></b></div>
               <div className="ps-1 pe-2">Color: <br /><b><b>{product.color}</b></b></div>
               <button className="rounded-5 button3 my-auto"
@@ -238,7 +240,7 @@ export const Cart = () => {
                 <div className="pt-3 " ><b><b>{product.nombre}</b></b></div>
               </div> 
               <div className="d-flex justify-content-evenly pt-3 text-center">
-                <div className="my-auto">Valor<br /> unidad:<br /> <b><b>${product.valor}</b></b></div>
+                <div className="my-auto">Valor<br /> unidad:<br /> <b><b>${product.valor.toLocaleString('es-ES', formattedNumberOption)}</b></b></div>
                 <div className="my-auto">Cantidad: <br /><b><b>{product.qty}</b></b></div>
                 <div className="my-auto">Color: <br /><b><b>{product.color}</b></b></div>
                 <button className="rounded-5 button3 my-auto"
@@ -255,7 +257,7 @@ export const Cart = () => {
         <div className="mx-3 my-4">
           <span className="size20 ">
           {discountSpan} <br />
-          <span className="my-1 d-block"><b><b>Total: ${getTotal()}</b></b></span>
+          <span className="my-1 d-block"><b><b>Total: ${getTotal().toLocaleString('es-ES', formattedNumberOption)}</b></b></span>
           </span>
         </div>
 

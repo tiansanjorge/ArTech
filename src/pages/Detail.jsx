@@ -18,6 +18,8 @@ export const Detail = () => {
   const {addToFavorites} = useFavoritesContext();
   const [product, setProduct] = useState({});
 
+  const formattedNumberOption = { useGrouping: true, minimumFractionDigits: 0 };
+
   useEffect(() => {
     getProduct(productId).then((data) => {
       setProduct(data);
@@ -43,12 +45,8 @@ export const Detail = () => {
     setShowFavAnimation(false);
   };
 
-  
-  
-
   return (
 
-    
       <div className="row minH ">
         
         {loading ? <Loader /> : 
@@ -59,7 +57,7 @@ export const Detail = () => {
             <div className="col-lg-6 col-md-8 col-11 text-center m-auto ">
               <div className="mb-5 text-blue size20"><b>{product?.nombre}</b></div>
               <p className="mb-5 mx-5">{product?.descripcion}</p>
-              <p className="mb-5 bg-yellow rounded d-inline-block mx-auto px-2 shadow-sm">${product?.valor}</p>  
+              <p className="mb-5 bg-yellow rounded d-inline-block mx-auto px-2 shadow-sm">${product?.valor.toLocaleString('es-ES', formattedNumberOption)}</p>  
               <div className="mb-3">
               Quedan {product?.stock} disponibles
               </div>        
